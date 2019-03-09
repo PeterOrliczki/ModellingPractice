@@ -6,13 +6,13 @@ public class DownstairsRoom extends Room {
     }
 
     @Override
-    void addItem() {
-
+    public void addItem(Item item) {
+        getItemsInRoom().add(item);
     }
 
     @Override
-    void removeItem() {
-
+    public void removeItem(Item item) {
+getItemsInRoom().remove(item);
     }
 
 }

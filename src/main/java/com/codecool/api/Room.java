@@ -5,11 +5,11 @@ import java.util.ArrayList;
 public abstract class Room{
     private String id;
     private int maxItems;
-    private ArrayList<PlayerHandItems> itemsInPlayerHand = new ArrayList<>();
+    private ArrayList<Item> itemsInRoom = new ArrayList<>();
 
-    abstract void addItem();
+    abstract void addItem(Item item);
 
-    abstract void removeItem();
+    abstract void removeItem(Item item);
 
     public String getId() {
         return id;
@@ -19,8 +19,8 @@ public abstract class Room{
         return maxItems;
     }
 
-    public ArrayList<PlayerHandItems> getItemsInPlayerHand() {
-        return itemsInPlayerHand;
+    public ArrayList<Item> getItemsInRoom() {
+        return itemsInRoom;
     }
 
     @Override
@@ -28,7 +28,7 @@ public abstract class Room{
         return "Room{" +
             "id='" + id + '\'' +
             ", maxItems=" + maxItems +
-            ", itemsInPlayerHand=" + itemsInPlayerHand +
+            ", itemsInPlayerHand=" + itemsInRoom +
             '}';
     }
 }

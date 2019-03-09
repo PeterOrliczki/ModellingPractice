@@ -1,8 +1,7 @@
 package com.codecool.api;
 
-public class UpstairsRoom extends Room{
-
-    public UpstairsRoom() {
+public class Loft extends Room{
+    public Loft() {
     }
 
     @Override

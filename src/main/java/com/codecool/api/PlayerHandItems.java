@@ -15,8 +15,16 @@ public class PlayerHandItems{
         allItems.add(item);
     }
 
+    public void pickUpItem(Item item){
+        itemsInPlayerHand.add(item);
+    }
+
     public void removeItemFromAllItems(Item item){
         allItems.remove(item);
+    }
+
+    public void putDownItem(Item item){
+        itemsInPlayerHand.remove(item);
     }
 
     public ArrayList<Item> getItemsInPlayerHand() {
