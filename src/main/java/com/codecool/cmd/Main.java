@@ -22,17 +22,16 @@
 
 package com.codecool.cmd;
 
-import com.codecool.api.DownstairsRoom;
-import com.codecool.api.Item;
-import com.codecool.api.PlayerHandItems;
-import com.codecool.api.RoomType;
+import com.codecool.api.*;
 
 import java.util.Scanner;
 
 public class Main {
     private Scanner reader = new Scanner(System.in);
     private PlayerHandItems playerHandItems = new PlayerHandItems();
-    private DownstairsRoom downstairsRoom = new DownstairsRoom();
+    private Room downstairsRoom = new DownstairsRoom();
+    private Room upstairsRoom = new UpstairsRoom();
+    private Room loft = new Loft();
 
     public static void main(String[] args) {
         Main main = new Main();
@@ -44,7 +43,7 @@ public class Main {
             } else if (userInput1.equals("2")) {
                 main.playerHandMenu();
             } else if (userInput1.equals("3")) {
-main.roomMenu();
+                main.roomMenu();
             } else {
 
             }
@@ -73,8 +72,13 @@ main.roomMenu();
         return printing;
     }
 
-    private String[] printChildRoomsMenu(){
+    private String[] printChildRoomsMenu() {
         String[] printing = {"Downstairs room menu", "Upstairsroom menu", "Loft menu"};
+        return printing;
+    }
+
+    private String[] printItemTypeMenu(){
+        String[] printing = {"Living room", "Kitchen", "Bedroom", "Bathroom"};
         return printing;
     }
 
@@ -94,14 +98,14 @@ main.roomMenu();
         }
     }
 
-    private void playerHandMenu(){
+    private void playerHandMenu() {
         printMenu(printGeneralSubMenu());
         String userInput2 = getUserInput("Enter a number: ");
-        if (userInput2.equals("1")){
+        if (userInput2.equals("1")) {
             listPlayerHandItems();
-        } else if (userInput2.equals("2")){
+        } else if (userInput2.equals("2")) {
             addItemToPlayerHand();
-        } else if (userInput2.equals("3")){
+        } else if (userInput2.equals("3")) {
             removeItemFromPlayerHand();
         } else if (userInput2.equals("\n")) {
             System.out.println("You didn't enter anything, going back to main menu.");
@@ -110,27 +114,51 @@ main.roomMenu();
         }
     }
 
-    private void roomMenu(){
+    private void roomMenu() {
         printMenu(printChildRoomsMenu());
         String userInput2 = getUserInput("Enter a number: ");
-        if (userInput2.equals("1")){
+        if (userInput2.equals("1")) {
             printMenu(printGeneralSubMenu());
             String userInput3 = getUserInput("Enter a number: ");
-            if (userInput3.equals("1")){
-                listDownstairsRoomItems();
-            } else if (userInput3.equals("2")){
-                addItemToDownstairsRoom();
-            } else if (userInput3.equals("3")){
-                removeItemFromDownstairsRoom();
+            if (userInput3.equals("1")) {
+                listRoomItems(downstairsRoom);
+            } else if (userInput3.equals("2")) {
+                addItemToRoom(downstairsRoom);
+            } else if (userInput3.equals("3")) {
+                removeItemFromRoom(downstairsRoom);
             } else if (userInput3.equals("\n")) {
                 System.out.println("You didn't enter anything, going back to main menu.");
             } else {
                 System.out.println("Theres no such option.");
             }
-        } else if (userInput2.equals("2")){
-
-        } else if (userInput2.equals("3")){
-
+        } else if (userInput2.equals("2")) {
+            printMenu(printGeneralSubMenu());
+            String userInput3 = getUserInput("Enter a number: ");
+            if (userInput3.equals("1")) {
+                listRoomItems(upstairsRoom);
+            } else if (userInput3.equals("2")) {
+                addItemToRoom(upstairsRoom);
+            } else if (userInput3.equals("3")) {
+                removeItemFromRoom(upstairsRoom);
+            } else if (userInput3.equals("\n")) {
+                System.out.println("You didn't enter anything, going back to main menu.");
+            } else {
+                System.out.println("Theres no such option.");
+            }
+        } else if (userInput2.equals("3")) {
+            printMenu(printGeneralSubMenu());
+            String userInput3 = getUserInput("Enter a number: ");
+            if (userInput3.equals("1")) {
+                listRoomItems(loft);
+            } else if (userInput3.equals("2")) {
+                addItemToRoom(loft);
+            } else if (userInput3.equals("3")) {
+                removeItemFromRoom(loft);
+            } else if (userInput3.equals("\n")) {
+                System.out.println("You didn't enter anything, going back to main menu.");
+            } else {
+                System.out.println("Theres no such option.");
+            }
         } else if (userInput2.equals("\n")) {
             System.out.println("You didn't enter anything, going back to main menu.");
         } else {
@@ -155,8 +183,21 @@ main.roomMenu();
 
     private void addItemToAllItems() {
         String nameOfItem = getUserInput("What's the item?");
-        RoomType typeOfItem = RoomType.valueOf(getUserInput("Where does it belong to?").toUpperCase());
-        playerHandItems.addItemToAllItems(new Item(nameOfItem, typeOfItem));
+        printMenu(printItemTypeMenu());
+        String typeOfItem= getUserInput("Where does it belong to?");
+        if (typeOfItem.equals("1")){
+            playerHandItems.addItemToAllItems(new Item(nameOfItem, RoomType.LIVINGROOM));
+        } else if (typeOfItem.equals("2")){
+            playerHandItems.addItemToAllItems(new Item(nameOfItem, RoomType.KITCHEN));
+        } else if (typeOfItem.equals("3")){
+            playerHandItems.addItemToAllItems(new Item(nameOfItem, RoomType.BEDROOM));
+        } else if (typeOfItem.equals("4")){
+            playerHandItems.addItemToAllItems(new Item(nameOfItem, RoomType.BATHROOM));
+        } else if (typeOfItem.equals("\n")) {
+            System.out.println("You didn't enter anything, going back to main menu.");
+        } else {
+            System.out.println("Theres no such option.");
+        }
     }
 
     private void removeItemFromAllItems() {
@@ -194,19 +235,19 @@ main.roomMenu();
         }
     }
 
-    private void addItemToPlayerHand(){
+    private void addItemToPlayerHand() {
         String nameOfItem = getUserInput("Enter the item you want to pick up: ");
         Item addingItem = searchForItemInPlayerHand(nameOfItem);
         playerHandItems.pickUpItem(addingItem);
     }
 
-    private void removeItemFromPlayerHand(){
+    private void removeItemFromPlayerHand() {
         String nameOfItem = getUserInput("Enter the item you want to pick up: ");
         Item removingItem = searchForItemInPlayerHand(nameOfItem);
         playerHandItems.putDownItem(removingItem);
     }
 
-    private Item searchForItemInPlayerHand(String item){
+    private Item searchForItemInPlayerHand(String item) {
         Item searchedItem = null;
         for (Item i : playerHandItems.getAllItems()
         ) {
@@ -221,12 +262,12 @@ main.roomMenu();
     }
 
     // Rooms menu methods
-    private void listDownstairsRoomItems(){
-        if (downstairsRoom.getItemsInRoom().size() == 0) {
+    private void listRoomItems(Room room) {
+        if (room.getItemsInRoom().size() == 0) {
             System.out.println("The room is empty.");
         } else {
             int j = 1;
-            for (Item i : downstairsRoom.getItemsInRoom()
+            for (Item i : room.getItemsInRoom()
             ) {
                 System.out.println("Item number: " + j + ". \nItem Name: " + i.getNameOfItem() + "\n" +
                     "The room it belongs to: " + i.getTypeOfItem() + "\n");
@@ -235,29 +276,29 @@ main.roomMenu();
         }
     }
 
-    private void addItemToDownstairsRoom(){
+    private void addItemToRoom(Room room) {
         String nameOfItem = getUserInput("Enter the item you want to put down: ");
         Item addingItem = searchForItemInPlayerHand(nameOfItem);
         playerHandItems.putDownItem(addingItem);
-        downstairsRoom.addItem(addingItem);
+        room.addItem(addingItem);
     }
 
-    private void removeItemFromDownstairsRoom(){
+    private void removeItemFromRoom(Room room) {
         String nameOfItem = getUserInput("Enter the item you want to remove form here: ");
-        Item removingItem = searchForItemInDownStairsRoom(nameOfItem);
+        Item removingItem = searchForItemInRoom(nameOfItem);
         playerHandItems.pickUpItem(removingItem);
-        downstairsRoom.removeItem(removingItem);
+        room.removeItem(removingItem);
     }
 
-    private Item searchForItemInDownStairsRoom(String item){
+    private Item searchForItemInRoom(String item) {
         Item searchedItem = null;
-        for (Item i: playerHandItems.getItemsInPlayerHand()
-             ) {
-            if (i.getNameOfItem().equals(item)){
+        for (Item i : playerHandItems.getItemsInPlayerHand()
+        ) {
+            if (i.getNameOfItem().equals(item)) {
                 searchedItem = i;
             }
         }
-        if (searchedItem == null){
+        if (searchedItem == null) {
             System.out.println("There's no such item.");
         }
         return searchedItem;

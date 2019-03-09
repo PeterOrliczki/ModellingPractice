@@ -7,9 +7,9 @@ public abstract class Room{
     private int maxItems;
     private ArrayList<Item> itemsInRoom = new ArrayList<>();
 
-    abstract void addItem(Item item);
+    public abstract void addItem(Item item);
 
-    abstract void removeItem(Item item);
+    public abstract void removeItem(Item item);
 
     public String getId() {
         return id;
