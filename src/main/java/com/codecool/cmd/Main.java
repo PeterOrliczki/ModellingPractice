@@ -136,11 +136,11 @@ public class Main {
         String userInput3 = getUserInput("Enter a number: ");
         if (userInput3.equals("1")) {
             if (roomLocation.equals(RoomLocation.DOWNSTAIRS)) {
-                listRoomsByLocation(downstairsRoom);
+                listDownstairsRoomsByLocation();
             } else if (roomLocation.equals(RoomLocation.UPSTAIRS)) {
-                listRoomsByLocation(upstairsRoom);
+                listUpstairsRoomsByLocation();
             } else if (roomLocation.equals(RoomLocation.LOFT)) {
-                listRoomsByLocation(loft);
+                listLoftByLocation();
             }
         } else if (userInput3.equals("2")) {
             addRoomToHouse(roomLocation);
@@ -317,16 +317,52 @@ public class Main {
 
     // house menu methods
     private void listRooms(Room room) {
-        System.out.println(house.getRooms());
-        System.out.println(room.getItemsInRoom());
+        if (room.equals(downstairsRoom)) {
+            System.out.println(house.getDownstairsRooms());
+            System.out.println(room.getItemsInRoom());
+        } else if (room.equals(upstairsRoom)) {
+            System.out.println(house.getUpstairsRooms());
+            System.out.println(room.getItemsInRoom());
+        } else if (room.equals(loft)) {
+            System.out.println(house.getLofts());
+            System.out.println(room.getItemsInRoom());
+        }
     }
 
-    private void listRoomsByLocation(Room room) {
-        if (house.getRooms().size() == 0) {
+    private void listDownstairsRoomsByLocation() {
+        if (house.getDownstairsRooms().size() == 0) {
             System.out.println("There aren't any rooms.");
         } else {
             int j = 1;
-            for (Item i : room.getItemsInRoom()
+            for (Item i : downstairsRoom.getItemsInRoom()
+            ) {
+                System.out.println("Items in the room: \nItem number: " + j + ". \nItem name: " + i.getNameOfItem() +
+                    "\nWhere it belongs: " + i.getTypeOfItem());
+                j++;
+            }
+        }
+    }
+
+    private void listUpstairsRoomsByLocation() {
+        if (house.getUpstairsRooms().size() == 0) {
+            System.out.println("There aren't any rooms.");
+        } else {
+            int j = 1;
+            for (Item i : upstairsRoom.getItemsInRoom()
+            ) {
+                System.out.println("Items in the room: \nItem number: " + j + ". \nItem name: " + i.getNameOfItem() +
+                    "\nWhere it belongs: " + i.getTypeOfItem());
+                j++;
+            }
+        }
+    }
+
+    private void listLoftByLocation() {
+        if (house.getLofts().size() == 0) {
+            System.out.println("There aren't any rooms.");
+        } else {
+            int j = 1;
+            for (Item i : loft.getItemsInRoom()
             ) {
                 System.out.println("Items in the room: \nItem number: " + j + ". \nItem name: " + i.getNameOfItem() +
                     "\nWhere it belongs: " + i.getTypeOfItem());
@@ -338,11 +374,11 @@ public class Main {
     private void addRoomToHouse(RoomLocation roomLocation) throws SameRoomException {
         String userInput1 = getUserInput("Enter the name of the new room: ");
         if (roomLocation.equals(RoomLocation.DOWNSTAIRS)) {
-            house.addRoom(new DownstairsRoom(userInput1, RoomLocation.DOWNSTAIRS));
+            house.addRoom(new DownstairsRoom(userInput1, RoomLocation.DOWNSTAIRS), roomLocation);
         } else if (roomLocation.equals(RoomLocation.UPSTAIRS)) {
-            house.addRoom(new UpstairsRoom(userInput1, RoomLocation.UPSTAIRS));
+            house.addRoom(new UpstairsRoom(userInput1, RoomLocation.UPSTAIRS), roomLocation);
         } else if (roomLocation.equals(RoomLocation.LOFT)) {
-            house.addRoom(new Loft(userInput1, RoomLocation.LOFT));
+            house.addRoom(new Loft(userInput1, RoomLocation.LOFT), roomLocation);
         }
     }
 

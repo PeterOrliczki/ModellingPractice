@@ -4,14 +4,26 @@ import java.util.ArrayList;
 
 public class House {
     private ArrayList<Room> rooms;
+    private ArrayList<DownstairsRoom> downstairsRooms;
+    private ArrayList<UpstairsRoom> upstairsRooms;
+    private ArrayList<Loft> lofts;
 
     public House() {
         rooms = new ArrayList<>();
+        downstairsRooms = new ArrayList<>();
+        upstairsRooms = new ArrayList<>();
+        lofts = new ArrayList<>();
     }
 
-    public void addRoom(Room room) throws SameRoomException {
+    public void addRoom(Room room, RoomLocation roomLocation) throws SameRoomException {
         iterateThroughRoomNames(room.getName());
-        rooms.add(room);
+        if (roomLocation.equals(RoomLocation.DOWNSTAIRS)) {
+            downstairsRooms.add((DownstairsRoom) room);
+        } else if (roomLocation.equals(RoomLocation.UPSTAIRS)) {
+            upstairsRooms.add((UpstairsRoom) room);
+        } else if (roomLocation.equals(RoomLocation.LOFT)) {
+            lofts.add((Loft) room);
+        }
     }
 
     public void deleteRoom(Room room) {
@@ -29,5 +41,17 @@ public class House {
 
     public ArrayList<Room> getRooms() {
         return rooms;
+    }
+
+    public ArrayList<DownstairsRoom> getDownstairsRooms() {
+        return downstairsRooms;
+    }
+
+    public ArrayList<UpstairsRoom> getUpstairsRooms() {
+        return upstairsRooms;
+    }
+
+    public ArrayList<Loft> getLofts() {
+        return lofts;
     }
 }
