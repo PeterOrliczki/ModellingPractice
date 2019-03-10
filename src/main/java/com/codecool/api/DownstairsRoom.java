@@ -2,8 +2,8 @@ package com.codecool.api;
 
 public class DownstairsRoom extends Room {
 
-    public DownstairsRoom(String name) {
-        super(name);
+    public DownstairsRoom(String name, RoomLocation roomLocation) {
+        super(name, roomLocation);
     }
 
     @Override
