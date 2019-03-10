@@ -3,7 +3,7 @@ package com.codecool.api;
 import java.util.ArrayList;
 
 public abstract class Room{
-    private String id;
+    private String name;
     private int maxItems;
     private ArrayList<Item> itemsInRoom = new ArrayList<>();
 
@@ -11,8 +11,8 @@ public abstract class Room{
 
     public abstract void removeItem(Item item);
 
-    public String getId() {
-        return id;
+    public String getName() {
+        return name;
     }
 
     public int getMaxItems() {
@@ -26,7 +26,7 @@ public abstract class Room{
     @Override
     public String toString() {
         return "Room{" +
-            "id='" + id + '\'' +
+            "name='" + name + '\'' +
             ", maxItems=" + maxItems +
             ", itemsInPlayerHand=" + itemsInRoom +
             '}';

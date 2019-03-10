@@ -32,20 +32,25 @@ public class Main {
     private Room downstairsRoom = new DownstairsRoom();
     private Room upstairsRoom = new UpstairsRoom();
     private Room loft = new Loft();
-
     public static void main(String[] args) {
         Main main = new Main();
         while (true) {
-            main.printMenu(main.printMainMenu());
-            String userInput1 = main.getUserInput("Enter a number: ");
-            if (userInput1.equals("1")) {
-                main.itemMenu();
-            } else if (userInput1.equals("2")) {
-                main.playerHandMenu();
-            } else if (userInput1.equals("3")) {
-                main.roomMenu();
-            } else {
-
+            try {
+                main.printMenu(main.printMainMenu());
+                String userInput1 = main.getUserInput("Enter a number: ");
+                if (userInput1.equals("1")) {
+                    main.itemMenu();
+                } else if (userInput1.equals("2")) {
+                    main.playerHandMenu();
+                } else if (userInput1.equals("3")) {
+                    main.roomMenu();
+                } else if (userInput1.equals("\n")) {
+                    System.out.println("You didn't enter anything, going back to main menu.");
+                } else {
+                    System.out.println("Theres no such option.");
+                }
+            } catch (SameItemException e) {
+                System.out.println("Item already exists.");
             }
         }
     }
@@ -77,12 +82,12 @@ public class Main {
         return printing;
     }
 
-    private String[] printItemTypeMenu(){
+    private String[] printItemTypeMenu() {
         String[] printing = {"Living room", "Kitchen", "Bedroom", "Bathroom"};
         return printing;
     }
 
-    private void itemMenu() {
+    private void itemMenu() throws SameItemException {
         printMenu(printGeneralSubMenu());
         String userInput2 = getUserInput("Enter a number: ");
         if (userInput2.equals("1")) {
@@ -118,48 +123,28 @@ public class Main {
         printMenu(printChildRoomsMenu());
         String userInput2 = getUserInput("Enter a number: ");
         if (userInput2.equals("1")) {
-            printMenu(printGeneralSubMenu());
-            String userInput3 = getUserInput("Enter a number: ");
-            if (userInput3.equals("1")) {
-                listRoomItems(downstairsRoom);
-            } else if (userInput3.equals("2")) {
-                addItemToRoom(downstairsRoom);
-            } else if (userInput3.equals("3")) {
-                removeItemFromRoom(downstairsRoom);
-            } else if (userInput3.equals("\n")) {
-                System.out.println("You didn't enter anything, going back to main menu.");
-            } else {
-                System.out.println("Theres no such option.");
-            }
+            roomsChildMenu(downstairsRoom);
         } else if (userInput2.equals("2")) {
-            printMenu(printGeneralSubMenu());
-            String userInput3 = getUserInput("Enter a number: ");
-            if (userInput3.equals("1")) {
-                listRoomItems(upstairsRoom);
-            } else if (userInput3.equals("2")) {
-                addItemToRoom(upstairsRoom);
-            } else if (userInput3.equals("3")) {
-                removeItemFromRoom(upstairsRoom);
-            } else if (userInput3.equals("\n")) {
-                System.out.println("You didn't enter anything, going back to main menu.");
-            } else {
-                System.out.println("Theres no such option.");
-            }
+            roomsChildMenu(upstairsRoom);
         } else if (userInput2.equals("3")) {
-            printMenu(printGeneralSubMenu());
-            String userInput3 = getUserInput("Enter a number: ");
-            if (userInput3.equals("1")) {
-                listRoomItems(loft);
-            } else if (userInput3.equals("2")) {
-                addItemToRoom(loft);
-            } else if (userInput3.equals("3")) {
-                removeItemFromRoom(loft);
-            } else if (userInput3.equals("\n")) {
-                System.out.println("You didn't enter anything, going back to main menu.");
-            } else {
-                System.out.println("Theres no such option.");
-            }
+            roomsChildMenu(loft);
         } else if (userInput2.equals("\n")) {
+            System.out.println("You didn't enter anything, going back to main menu.");
+        } else {
+            System.out.println("Theres no such option.");
+        }
+    }
+
+    private void roomsChildMenu(Room room) {
+        printMenu(printGeneralSubMenu());
+        String userInput3 = getUserInput("Enter a number: ");
+        if (userInput3.equals("1")) {
+            listRoomItems(room);
+        } else if (userInput3.equals("2")) {
+            addItemToRoom(room);
+        } else if (userInput3.equals("3")) {
+            removeItemFromRoom(room);
+        } else if (userInput3.equals("\n")) {
             System.out.println("You didn't enter anything, going back to main menu.");
         } else {
             System.out.println("Theres no such option.");
@@ -181,17 +166,17 @@ public class Main {
         }
     }
 
-    private void addItemToAllItems() {
+    private void addItemToAllItems() throws SameItemException {
         String nameOfItem = getUserInput("What's the item?");
         printMenu(printItemTypeMenu());
-        String typeOfItem= getUserInput("Where does it belong to?");
-        if (typeOfItem.equals("1")){
+        String typeOfItem = getUserInput("Where does it belong to?");
+        if (typeOfItem.equals("1")) {
             playerHandItems.addItemToAllItems(new Item(nameOfItem, RoomType.LIVINGROOM));
-        } else if (typeOfItem.equals("2")){
+        } else if (typeOfItem.equals("2")) {
             playerHandItems.addItemToAllItems(new Item(nameOfItem, RoomType.KITCHEN));
-        } else if (typeOfItem.equals("3")){
+        } else if (typeOfItem.equals("3")) {
             playerHandItems.addItemToAllItems(new Item(nameOfItem, RoomType.BEDROOM));
-        } else if (typeOfItem.equals("4")){
+        } else if (typeOfItem.equals("4")) {
             playerHandItems.addItemToAllItems(new Item(nameOfItem, RoomType.BATHROOM));
         } else if (typeOfItem.equals("\n")) {
             System.out.println("You didn't enter anything, going back to main menu.");
@@ -305,3 +290,4 @@ public class Main {
     }
 
 }
+

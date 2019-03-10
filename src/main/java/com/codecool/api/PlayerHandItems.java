@@ -11,7 +11,17 @@ public class PlayerHandItems{
         allItems = new ArrayList<>();
     }
 
-    public void addItemToAllItems(Item item){
+    public void checkForSameItem(String nameOfItem) throws SameItemException {
+        for (Item i : allItems
+        ) {
+            if (i.getNameOfItem().equals(nameOfItem)) {
+                throw new SameItemException("Theres no such item.");
+            }
+        }
+    }
+
+    public void addItemToAllItems(Item item) throws SameItemException {
+        checkForSameItem(item.getNameOfItem());
         allItems.add(item);
     }
 
