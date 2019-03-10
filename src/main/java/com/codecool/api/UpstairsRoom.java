@@ -8,11 +8,11 @@ public class UpstairsRoom extends Room{
 
     @Override
     public void addItem(Item item) {
-
+        getItemsInRoom().add(item);
     }
 
     @Override
     public void removeItem(Item item) {
-
+        getItemsInRoom().remove(item);
     }
 }

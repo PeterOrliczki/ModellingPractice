@@ -82,7 +82,7 @@ public class Main {
     }
 
     private String[] printChildRoomsMenu() {
-        String[] printing = {"Downstairs room menu", "Upstairsroom menu", "Loft menu"};
+        String[] printing = {"Downstairs room menu", "Upstairsroom menu", "Loft menu", "Show all rooms"};
         return printing;
     }
 
@@ -137,6 +137,8 @@ public class Main {
             roomsChildMenu(RoomLocation.UPSTAIRS);
         } else if (userInput2.equals("3")) {
             roomsChildMenu(RoomLocation.LOFT);
+        } else if (userInput2.equals("4")) {
+            listRooms();
         } else if (userInput2.equals("\n")) {
             System.out.println("You didn't enter anything, going back to main menu.");
         } else {
@@ -149,11 +151,11 @@ public class Main {
         String userInput3 = getUserInput("Enter a number: ");
         if (userInput3.equals("1")) {
             if (roomLocation.equals(RoomLocation.DOWNSTAIRS)) {
-                listDownstairsRoomsByLocation(downstairsRoom);
+                listRoomsByLocation(downstairsRoom);
             } else if (roomLocation.equals(RoomLocation.UPSTAIRS)) {
-                listDownstairsRoomsByLocation(upstairsRoom);
+                listRoomsByLocation(upstairsRoom);
             } else if (roomLocation.equals(RoomLocation.LOFT)) {
-                listDownstairsRoomsByLocation(loft);
+                listRoomsByLocation(loft);
             }
         } else if (userInput3.equals("2")) {
             addRoomToHouse(roomLocation);
@@ -343,7 +345,7 @@ public class Main {
         }
     }
 
-    private void listDownstairsRoomsByLocation(Room room) {
+    private void listRoomsByLocation(Room room) {
         if (house.getRooms().size() == 0) {
             System.out.println("There aren't any rooms.");
         } else {
