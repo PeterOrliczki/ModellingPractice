@@ -5,7 +5,12 @@ import java.util.ArrayList;
 public abstract class Room{
     private String name;
     private int maxItems;
-    private ArrayList<Item> itemsInRoom = new ArrayList<>();
+    private ArrayList<Item> itemsInRoom;
+
+    public Room(String name) {
+        this.name = name;
+        itemsInRoom = new ArrayList<>();
+    }
 
     public abstract void addItem(Item item);
 

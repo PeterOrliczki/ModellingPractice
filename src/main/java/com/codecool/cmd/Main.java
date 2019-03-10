@@ -29,9 +29,11 @@ import java.util.Scanner;
 public class Main {
     private Scanner reader = new Scanner(System.in);
     private PlayerHandItems playerHandItems = new PlayerHandItems();
-    private Room downstairsRoom = new DownstairsRoom();
-    private Room upstairsRoom = new UpstairsRoom();
-    private Room loft = new Loft();
+    private House house = new House();
+    private Room downstairsRoom = new DownstairsRoom("default_downstairsRoom");
+    private Room upstairsRoom = new UpstairsRoom("default_upstairsRoom");
+    private Room loft = new Loft("default_loft");
+
     public static void main(String[] args) {
         Main main = new Main();
         while (true) {
@@ -51,6 +53,8 @@ public class Main {
                 }
             } catch (SameItemException e) {
                 System.out.println("Item already exists.");
+            } catch (SameRoomException e2) {
+                System.out.println("Room already exists.");
             }
         }
     }
@@ -87,6 +91,11 @@ public class Main {
         return printing;
     }
 
+    private String[] printRoomsChildMenu() {
+        String[] printing = {"List rooms", "Add room", "Remove room"};
+        return printing;
+    }
+
     private void itemMenu() throws SameItemException {
         printMenu(printGeneralSubMenu());
         String userInput2 = getUserInput("Enter a number: ");
@@ -119,15 +128,15 @@ public class Main {
         }
     }
 
-    private void roomMenu() {
+    private void roomMenu() throws SameRoomException {
         printMenu(printChildRoomsMenu());
         String userInput2 = getUserInput("Enter a number: ");
         if (userInput2.equals("1")) {
-            roomsChildMenu(downstairsRoom);
+            roomsChildMenu("Downstairs");
         } else if (userInput2.equals("2")) {
-            roomsChildMenu(upstairsRoom);
+            roomsChildMenu("Upstairs");
         } else if (userInput2.equals("3")) {
-            roomsChildMenu(loft);
+            roomsChildMenu("Loft");
         } else if (userInput2.equals("\n")) {
             System.out.println("You didn't enter anything, going back to main menu.");
         } else {
@@ -135,16 +144,32 @@ public class Main {
         }
     }
 
-    private void roomsChildMenu(Room room) {
-        printMenu(printGeneralSubMenu());
+    private void roomsChildMenu(String roomType) throws SameRoomException {
+        printMenu(printRoomsChildMenu());
         String userInput3 = getUserInput("Enter a number: ");
         if (userInput3.equals("1")) {
-            listRoomItems(room);
+            listRooms();
         } else if (userInput3.equals("2")) {
-            addItemToRoom(room);
+            addRoomToHouse(roomType);
         } else if (userInput3.equals("3")) {
-            removeItemFromRoom(room);
+            removingRoomFromHouse();
         } else if (userInput3.equals("\n")) {
+            System.out.println("You didn't enter anything, going back to main menu.");
+        } else {
+            System.out.println("Theres no such option.");
+        }
+    }
+
+    private void houseMenu() {
+        printMenu(printGeneralSubMenu());
+        String userInput1 = getUserInput("Enter a number: ");
+        if (userInput1.equals("1")) {
+
+        } else if (userInput1.equals("2")) {
+
+        } else if (userInput1.equals("3")) {
+
+        } else if (userInput1.equals("\n")) {
             System.out.println("You didn't enter anything, going back to main menu.");
         } else {
             System.out.println("Theres no such option.");
@@ -289,5 +314,50 @@ public class Main {
         return searchedItem;
     }
 
+    // house menu methods
+    private void listRooms() {
+        if (house.getRooms().size() == 0) {
+            System.out.println("There aren't any rooms.");
+        } else {
+            int j = 1;
+            for (Room i : house.getRooms()
+            ) {
+                System.out.println("Room number: " + j + ". \nName: " + i.getName() + "\n" +
+                    "The items in it: " + i.getItemsInRoom() + "\n");
+                j++;
+            }
+        }
+    }
+
+    private void addRoomToHouse(String whichRoom) throws SameRoomException {
+        String userInput1 = getUserInput("Enter the name of the new room: ");
+        if (whichRoom.equals("Downstairs")) {
+            house.addRoom(new DownstairsRoom(userInput1));
+        } else if (whichRoom.equals("Upstairs")) {
+            house.addRoom(new UpstairsRoom(userInput1));
+        } else if (whichRoom.equals("Loft")) {
+            house.addRoom(new Loft(userInput1));
+        }
+    }
+
+    private void removingRoomFromHouse() {
+        String userInput1 = getUserInput("Enter the item you want to remove: ");
+        Room deletingRoom = searchRoomInHouse(userInput1);
+        house.deleteRoom(deletingRoom);
+    }
+
+    private Room searchRoomInHouse(String name) {
+        Room searched = null;
+        for (Room i : house.getRooms()
+        ) {
+            if (i.getName().equals(name)) {
+                searched = i;
+            }
+        }
+        if (searched == null) {
+            System.out.println("Item not found.");
+        }
+        return null;
+    }
 }
 

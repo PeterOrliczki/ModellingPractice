@@ -9,9 +9,13 @@ public class House {
         rooms = new ArrayList<>();
     }
 
-    public void addRooms(Room room) throws SameRoomException {
+    public void addRoom(Room room) throws SameRoomException {
         iterateThroughRoomNames(room.getName());
         rooms.add(room);
+    }
+
+    public void deleteRoom(Room room) {
+        rooms.remove(room);
     }
 
     public void iterateThroughRoomNames(String name) throws SameRoomException {

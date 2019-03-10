@@ -2,7 +2,8 @@ package com.codecool.api;
 
 public class DownstairsRoom extends Room {
 
-    public DownstairsRoom() {
+    public DownstairsRoom(String name) {
+        super(name);
     }
 
     @Override
@@ -12,7 +13,7 @@ public class DownstairsRoom extends Room {
 
     @Override
     public void removeItem(Item item) {
-getItemsInRoom().remove(item);
+        getItemsInRoom().remove(item);
     }
 
 }

@@ -1,7 +1,9 @@
 package com.codecool.api;
 
 public class Loft extends Room{
-    public Loft() {
+
+    public Loft(String name) {
+        super(name);
     }
 
     @Override
