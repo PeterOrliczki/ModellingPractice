@@ -64,7 +64,7 @@ public class Main {
     }
 
     private String[] printChildRoomsMenu() {
-        String[] printing = {"Downstairs room menu", "Upstairs room menu", "Loft menu", "Show all rooms", "Print state"};
+        String[] printing = {"Downstairs room menu", "Upstairs room menu", "Loft menu", "Show all rooms"};
         return printing;
     }
 
@@ -126,8 +126,6 @@ public class Main {
             listRooms(upstairsRoom);
             System.out.println("Rooms that are loft level: ");
             listRooms(loft);
-        } else if (userInput2.equals("5")) {
-            System.out.println(house.getState());
         } else if (userInput2.equals("\n")) {
             System.out.println("You didn't enter anything, going back to main menu.");
         } else {
