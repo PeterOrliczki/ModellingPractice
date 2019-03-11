@@ -7,13 +7,19 @@ public class House {
     private ArrayList<DownstairsRoom> downstairsRooms;
     private ArrayList<UpstairsRoom> upstairsRooms;
     private ArrayList<Loft> lofts;
+    private ArrayList<Room> state;
 
     public House() {
         rooms = new ArrayList<>();
         downstairsRooms = new ArrayList<>();
         upstairsRooms = new ArrayList<>();
         lofts = new ArrayList<>();
+        state = new ArrayList<>();
     }
+
+//    public void addToState(){
+//        state.add()
+//    }
 
     public void addRoom(Room room, RoomLocation roomLocation) throws SameRoomException {
         iterateThroughRoomNames(room.getName());
@@ -37,6 +43,10 @@ public class House {
             }
         }
 
+    }
+
+    public ArrayList<Room> getState() {
+        return state;
     }
 
     public ArrayList<Room> getRooms() {
