@@ -64,7 +64,7 @@ public class Main {
     }
 
     private String[] printChildRoomsMenu() {
-        String[] printing = {"Downstairs room menu", "Upstairs room menu", "Loft menu", "Show all rooms"};
+        String[] printing = {"Downstairs room menu", "Upstairs room menu", "Loft menu", "Show all rooms", "State"};
         return printing;
     }
 
@@ -90,7 +90,7 @@ public class Main {
         } else if (userInput2.equals("\n")) {
             System.out.println("You didn't enter anything, going back to main menu.");
         } else {
-            System.out.println("Theres no such option.");
+            System.out.println("There's no such option.");
         }
     }
 
@@ -106,7 +106,7 @@ public class Main {
         } else if (userInput2.equals("\n")) {
             System.out.println("You didn't enter anything, going back to main menu.");
         } else {
-            System.out.println("Theres no such option.");
+            System.out.println("There's no such option.");
         }
     }
 
@@ -126,10 +126,12 @@ public class Main {
             listRooms(upstairsRoom);
             System.out.println("Rooms that are loft level: ");
             listRooms(loft);
+        } else if (userInput2.equals("5")) {
+            state();
         } else if (userInput2.equals("\n")) {
             System.out.println("You didn't enter anything, going back to main menu.");
         } else {
-            System.out.println("Theres no such option.");
+            System.out.println("There's no such option.");
         }
     }
 
@@ -167,7 +169,7 @@ public class Main {
         } else if (userInput3.equals("\n")) {
             System.out.println("You didn't enter anything, going back to main menu.");
         } else {
-            System.out.println("Theres no such option.");
+            System.out.println("There's no such option.");
         }
     }
 
@@ -183,7 +185,7 @@ public class Main {
         } else if (userInput1.equals("\n")) {
             System.out.println("You didn't enter anything, going back to main menu.");
         } else {
-            System.out.println("Theres no such option.");
+            System.out.println("There's no such option.");
         }
     }
 
@@ -217,7 +219,7 @@ public class Main {
         } else if (typeOfItem.equals("\n")) {
             System.out.println("You didn't enter anything, going back to main menu.");
         } else {
-            System.out.println("Theres no such option.");
+            System.out.println("There's no such option.");
         }
     }
 
@@ -329,6 +331,13 @@ public class Main {
             }
             System.out.println(house.getLofts());
         }
+    }
+
+    private void state() {
+        house.addToState(house.getDownstairsRooms());
+        house.addToState(house.getUpstairsRooms());
+        house.addToState(house.getLofts());
+        System.out.println(house.getState());
     }
 
 

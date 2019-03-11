@@ -7,12 +7,18 @@ public class House {
     private ArrayList<DownstairsRoom> downstairsRooms;
     private ArrayList<UpstairsRoom> upstairsRooms;
     private ArrayList<Loft> lofts;
+    private ArrayList<ArrayList> state;
 
     public House() {
         rooms = new ArrayList<>();
         downstairsRooms = new ArrayList<>();
         upstairsRooms = new ArrayList<>();
         lofts = new ArrayList<>();
+        state = new ArrayList<>();
+    }
+
+    public void addToState(ArrayList room) {
+        state.add(room);
     }
 
     public void addRoom(Room room, RoomLocation roomLocation) throws SameRoomException {
@@ -53,5 +59,9 @@ public class House {
 
     public ArrayList<Loft> getLofts() {
         return lofts;
+    }
+
+    public ArrayList<ArrayList> getState() {
+        return state;
     }
 }
