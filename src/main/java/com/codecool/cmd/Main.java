@@ -303,28 +303,34 @@ public class Main {
         String roomToAddTo = getUserInput("Enter the room you want to put the item in: ");
         int addingToRoomIndex = searchForLoftInHouse(roomToAddTo);
         playerHandItems.putDownItem(addingItem);
-        house.getUpstairsRooms().get(addingToRoomIndex).addItem(addingItem);
+        house.getLofts().get(addingToRoomIndex).addItem(addingItem);
     }
 
     private void removeItemFromDownstairsRoom() {
         String nameOfItem = getUserInput("Enter the item you want to remove from here: ");
         Item removingItem = searchForItemInRoom(nameOfItem);
+        String roomToRemoveFrom = getUserInput("Enter the room you want to put the item in: ");
+        int removingFromRoomIndex = searchForDownstairsRoomInHouse(roomToRemoveFrom);
         playerHandItems.pickUpItem(removingItem);
-        house.getDownstairsRooms().get(0).removeItem(removingItem);
+        house.getDownstairsRooms().get(removingFromRoomIndex).removeItem(removingItem);
     }
 
     private void removeItemFromUpstairsRoom() {
         String nameOfItem = getUserInput("Enter the item you want to remove from here: ");
         Item removingItem = searchForItemInRoom(nameOfItem);
+        String roomToRemoveFrom = getUserInput("Enter the room you want to put the item in: ");
+        int removingFromRoomIndex = searchForUpstairsRoomInHouse(roomToRemoveFrom);
         playerHandItems.pickUpItem(removingItem);
-        house.getUpstairsRooms().get(0).removeItem(removingItem);
+        house.getUpstairsRooms().get(removingFromRoomIndex).removeItem(removingItem);
     }
 
     private void removeItemFromLoft() {
         String nameOfItem = getUserInput("Enter the item you want to remove from here: ");
         Item removingItem = searchForItemInRoom(nameOfItem);
+        String roomToRemoveFrom = getUserInput("Enter the room you want to put the item in: ");
+        int removingFromRoomIndex = searchForLoftInHouse(roomToRemoveFrom);
         playerHandItems.pickUpItem(removingItem);
-        house.getLofts().get(0).removeItem(removingItem);
+        house.getLofts().get(removingFromRoomIndex).removeItem(removingItem);
     }
 
     private Item searchForItemInRoom(String item) {
@@ -350,7 +356,7 @@ public class Main {
             }
         }
         if (searched == null) {
-            System.out.println("Room not found.");
+            System.out.println("Room not found."); // add exception here
         }
         return house.getDownstairsRooms().indexOf(searched);
     }
