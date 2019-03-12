@@ -55,7 +55,7 @@ public class Main {
                 System.out.println("Room already exists.");
             } catch (RoomDoesntExistException e3) {
                 System.out.println("Room doesn't exists.");
-            } catch (DontBelongHereException e) {
+            } catch (DontBelongHereException e4) {
                 System.out.println("This item can't be added to this room, it doesn't belong here.");
             }
         }
@@ -324,13 +324,13 @@ public class Main {
         String roomToAddTo = getUserInput("Enter the room you want to put the item in: ");
         int addingToRoomIndex = searchForLoftInHouse(roomToAddTo);
         playerHandItems.putDownItem(addingItem);
-        house.getLofts().get(addingToRoomIndex).addItem(addingItem);
+        house.getLoftsRooms().get(addingToRoomIndex).addItem(addingItem);
     }
 
     private void removeItemFromDownstairsRoom() throws RoomDoesntExistException {
         String nameOfItem = getUserInput("Enter the item you want to remove from here: ");
         Item removingItem = searchForItemInRoom(nameOfItem);
-        String roomToRemoveFrom = getUserInput("Enter the room you want to put the item in: ");
+        String roomToRemoveFrom = getUserInput("Enter the room you want to remove the item from: ");
         int removingFromRoomIndex = searchForDownstairsRoomInHouse(roomToRemoveFrom);
         playerHandItems.pickUpItem(removingItem);
         house.getDownstairsRooms().get(removingFromRoomIndex).removeItem(removingItem);
@@ -339,7 +339,7 @@ public class Main {
     private void removeItemFromUpstairsRoom() throws RoomDoesntExistException {
         String nameOfItem = getUserInput("Enter the item you want to remove from here: ");
         Item removingItem = searchForItemInRoom(nameOfItem);
-        String roomToRemoveFrom = getUserInput("Enter the room you want to put the item in: ");
+        String roomToRemoveFrom = getUserInput("Enter the room you want to remove the item from: ");
         int removingFromRoomIndex = searchForUpstairsRoomInHouse(roomToRemoveFrom);
         playerHandItems.pickUpItem(removingItem);
         house.getUpstairsRooms().get(removingFromRoomIndex).removeItem(removingItem);
@@ -348,10 +348,10 @@ public class Main {
     private void removeItemFromLoft() throws RoomDoesntExistException {
         String nameOfItem = getUserInput("Enter the item you want to remove from here: ");
         Item removingItem = searchForItemInRoom(nameOfItem);
-        String roomToRemoveFrom = getUserInput("Enter the room you want to put the item in: ");
+        String roomToRemoveFrom = getUserInput("Enter the room you want to remove the item from: ");
         int removingFromRoomIndex = searchForLoftInHouse(roomToRemoveFrom);
         playerHandItems.pickUpItem(removingItem);
-        house.getLofts().get(removingFromRoomIndex).removeItem(removingItem);
+        house.getLoftsRooms().get(removingFromRoomIndex).removeItem(removingItem);
     }
 
     private Item searchForItemInRoom(String item) {
@@ -398,7 +398,7 @@ public class Main {
 
     private int searchForLoftInHouse(String roomName) throws RoomDoesntExistException {
         Room searched = null;
-        for (Room i : house.getLofts()
+        for (Room i : house.getLoftsRooms()
         ) {
             if (i.getName().equals(roomName)) {
                 searched = i;
@@ -407,20 +407,20 @@ public class Main {
         if (searched == null) {
             throw new RoomDoesntExistException();
         }
-        return house.getLofts().indexOf(searched);
+        return house.getLoftsRooms().indexOf(searched);
     }
 
     // house menu methods
     private void listRooms() {
         System.out.println(house.getDownstairsRooms());
         System.out.println(house.getUpstairsRooms());
-        System.out.println(house.getLofts());
+        System.out.println(house.getLoftsRooms());
     }
 
     private void state() {
         house.addToState(house.getDownstairsRooms());
         house.addToState(house.getUpstairsRooms());
-        house.addToState(house.getLofts());
+        house.addToState(house.getLoftsRooms());
         System.out.println(house.getState());
     }
 
@@ -454,11 +454,11 @@ public class Main {
     }
 
     private void listLoftByLocation() {
-        if (house.getLofts().size() == 0) {
+        if (house.getLoftsRooms().size() == 0) {
             System.out.println("There aren't any rooms.");
         } else {
             int j = 1;
-            for (Room i : house.getLofts()
+            for (Room i : house.getLoftsRooms()
             ) {
                 System.out.println("Items in the room: \nItem number: " + j + ". \nItem name: " + i.getName() +
                     "\nWhere it belongs: " + i.getItemsInRoom());
@@ -469,12 +469,14 @@ public class Main {
 
     private void addRoomToHouse(RoomLocation roomLocation) throws SameRoomException {
         String userInput1 = getUserInput("Enter the name of the new room: ");
-        if (roomLocation.equals(RoomLocation.DOWNSTAIRS)) {
+        if (roomLocation.equals(RoomLocation.DOWNSTAIRS) && searchRoomInHouse(userInput1) == null) {
             house.addRoom(new DownstairsRoom(userInput1, RoomLocation.DOWNSTAIRS), roomLocation);
-        } else if (roomLocation.equals(RoomLocation.UPSTAIRS)) {
+        } else if (roomLocation.equals(RoomLocation.UPSTAIRS) && searchRoomInHouse(userInput1) == null) {
             house.addRoom(new UpstairsRoom(userInput1, RoomLocation.UPSTAIRS), roomLocation);
-        } else if (roomLocation.equals(RoomLocation.LOFT)) {
+        } else if (roomLocation.equals(RoomLocation.LOFT) && searchRoomInHouse(userInput1) == null) {
             house.addRoom(new Loft(userInput1, RoomLocation.LOFT), roomLocation);
+        } else {
+            throw new SameRoomException();
         }
     }
 
@@ -493,7 +495,7 @@ public class Main {
         if (searched == null) {
             System.out.println("Item not found.");
         }
-        return null;
+        return searched;
     }
 }
 

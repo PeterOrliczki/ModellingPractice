@@ -8,13 +8,13 @@ import java.util.List;
 public class House {
     private ArrayList<DownstairsRoom> downstairsRooms;
     private ArrayList<UpstairsRoom> upstairsRooms;
-    private ArrayList<Loft> lofts;
+    private ArrayList<Loft> loftsRooms;
     private ArrayList<ArrayList> state;
 
     public House() {
         downstairsRooms = new ArrayList<>();
         upstairsRooms = new ArrayList<>();
-        lofts = new ArrayList<>();
+        loftsRooms = new ArrayList<>();
         state = new ArrayList<>();
     }
 
@@ -29,7 +29,7 @@ public class House {
         } else if (roomLocation.equals(RoomLocation.UPSTAIRS)) {
             upstairsRooms.add((UpstairsRoom) room);
         } else if (roomLocation.equals(RoomLocation.LOFT)) {
-            lofts.add((Loft) room);
+            loftsRooms.add((Loft) room);
         }
     }
 
@@ -43,7 +43,7 @@ public class House {
         List<Room> allRooms = new ArrayList<>();
         allRooms.addAll(downstairsRooms);
         allRooms.addAll(upstairsRooms);
-        allRooms.addAll(lofts);
+        allRooms.addAll(loftsRooms);
         return allRooms;
     }
 
@@ -55,8 +55,8 @@ public class House {
         return upstairsRooms;
     }
 
-    public ArrayList<Loft> getLofts() {
-        return lofts;
+    public ArrayList<Loft> getLoftsRooms() {
+        return loftsRooms;
     }
 
     public ArrayList<ArrayList> getState() {
