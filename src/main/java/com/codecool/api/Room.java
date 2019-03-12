@@ -1,6 +1,6 @@
 package com.codecool.api;
 
-import com.codecool.api.exceptions.DontBelongHereException;
+import com.codecool.api.exceptions.CollapsingFromCarryingWayTooMuchException;
 
 import java.util.ArrayList;
 
@@ -16,7 +16,7 @@ public abstract class Room{
         itemsInRoom = new ArrayList<>();
     }
 
-    public abstract void addItem(Item item) throws DontBelongHereException;
+    public abstract void addItem(Item item, PlayerHandItems playerHandItems) throws CollapsingFromCarryingWayTooMuchException;
 
     public abstract void removeItem(Item item);
 

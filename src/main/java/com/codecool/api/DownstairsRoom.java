@@ -1,6 +1,6 @@
 package com.codecool.api;
 
-import com.codecool.api.exceptions.DontBelongHereException;
+import com.codecool.api.exceptions.CollapsingFromCarryingWayTooMuchException;
 
 public class DownstairsRoom extends Room {
 
@@ -9,9 +9,9 @@ public class DownstairsRoom extends Room {
     }
 
     @Override
-    public void addItem(Item item) throws DontBelongHereException {
-        if (item.getTypeOfItem() == RoomType.KITCHEN) {
-            throw new DontBelongHereException();
+    public void addItem(Item item, PlayerHandItems playerHandItems) throws CollapsingFromCarryingWayTooMuchException {
+        if (playerHandItems.getItemsInPlayerHand().size() > 4) {
+            throw new CollapsingFromCarryingWayTooMuchException();
         }
         getItemsInRoom().add(item);
     }

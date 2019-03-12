@@ -3,10 +3,9 @@
 package com.codecool.cmd;
 
 import com.codecool.api.*;
-import com.codecool.api.exceptions.DontBelongHereException;
-import com.codecool.api.exceptions.RoomDoesntExistException;
 import com.codecool.api.exceptions.SameItemException;
 import com.codecool.api.exceptions.SameRoomException;
+import com.codecool.api.exceptions.*;
 
 import java.util.Scanner;
 
@@ -57,6 +56,10 @@ public class Main {
                 System.out.println("Room doesn't exists.");
             } catch (DontBelongHereException e4) {
                 System.out.println("This item can't be added to this room, it doesn't belong here.");
+            } catch (CollapsingFromCarryingWayTooMuchException e5) {
+                System.out.println("Your blood sugar plummeted from carrying way too many items, " +
+                    "thus made you unable to do these tasks anymore, the program is quitting.");
+                System.exit(0);
             }
         }
     }
@@ -130,7 +133,7 @@ public class Main {
         }
     }
 
-    private void roomMenu() throws SameRoomException, RoomDoesntExistException, DontBelongHereException {
+    private void roomMenu() throws SameRoomException, RoomDoesntExistException, DontBelongHereException, CollapsingFromCarryingWayTooMuchException {
         printMenu(printChildRoomsMenu());
         String userInput2 = getUserInput("Enter a number: ");
         if (userInput2.equals("1")) {
@@ -150,7 +153,7 @@ public class Main {
         }
     }
 
-    private void roomsChildMenu(RoomLocation roomLocation) throws SameRoomException, RoomDoesntExistException, DontBelongHereException {
+    private void roomsChildMenu(RoomLocation roomLocation) throws SameRoomException, RoomDoesntExistException, DontBelongHereException, CollapsingFromCarryingWayTooMuchException {
         printMenu(printRoomsChildMenu());
         String userInput3 = getUserInput("Enter a number: ");
         if (userInput3.equals("1")) {
@@ -300,31 +303,31 @@ public class Main {
     }
 
     // Rooms menu methods
-    private void addItemToDownstairsRoom() throws RoomDoesntExistException, DontBelongHereException {
+    private void addItemToDownstairsRoom() throws RoomDoesntExistException, DontBelongHereException, CollapsingFromCarryingWayTooMuchException {
         String nameOfItem = getUserInput("Enter the item you want to put down: ");
         Item addingItem = searchForItemInPlayerHand(nameOfItem);
         String roomToAddTo = getUserInput("Enter the room you want to put the item in: ");
         int addingToRoomIndex = searchForDownstairsRoomInHouse(roomToAddTo);
         playerHandItems.putDownItem(addingItem);
-        house.getDownstairsRooms().get(addingToRoomIndex).addItem(addingItem);
+        house.getDownstairsRooms().get(addingToRoomIndex).addItem(addingItem, playerHandItems);
     }
 
-    private void addItemToUpstairsRoom() throws RoomDoesntExistException {
+    private void addItemToUpstairsRoom() throws RoomDoesntExistException, CollapsingFromCarryingWayTooMuchException {
         String nameOfItem = getUserInput("Enter the item you want to put down: ");
         Item addingItem = searchForItemInPlayerHand(nameOfItem);
         String roomToAddTo = getUserInput("Enter the room you want to put the item in: ");
         int addingToRoomIndex = searchForUpstairsRoomInHouse(roomToAddTo);
         playerHandItems.putDownItem(addingItem);
-        house.getUpstairsRooms().get(addingToRoomIndex).addItem(addingItem);
+        house.getUpstairsRooms().get(addingToRoomIndex).addItem(addingItem, playerHandItems);
     }
 
-    private void addItemToLoft() throws RoomDoesntExistException {
+    private void addItemToLoft() throws RoomDoesntExistException, CollapsingFromCarryingWayTooMuchException {
         String nameOfItem = getUserInput("Enter the item you want to put down: ");
         Item addingItem = searchForItemInPlayerHand(nameOfItem);
         String roomToAddTo = getUserInput("Enter the room you want to put the item in: ");
         int addingToRoomIndex = searchForLoftInHouse(roomToAddTo);
         playerHandItems.putDownItem(addingItem);
-        house.getLoftsRooms().get(addingToRoomIndex).addItem(addingItem);
+        house.getLoftsRooms().get(addingToRoomIndex).addItem(addingItem, playerHandItems);
     }
 
     private void removeItemFromDownstairsRoom() throws RoomDoesntExistException {

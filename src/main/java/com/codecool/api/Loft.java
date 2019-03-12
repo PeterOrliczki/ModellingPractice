@@ -1,5 +1,7 @@
 package com.codecool.api;
 
+import com.codecool.api.exceptions.CollapsingFromCarryingWayTooMuchException;
+
 public class Loft extends Room{
 
     public Loft(String name, RoomLocation roomLocation) {
@@ -7,7 +9,10 @@ public class Loft extends Room{
     }
 
     @Override
-    public void addItem(Item item) {
+    public void addItem(Item item, PlayerHandItems playerHandItems) throws CollapsingFromCarryingWayTooMuchException {
+        if (playerHandItems.getItemsInPlayerHand().size() > 2) {
+            throw new CollapsingFromCarryingWayTooMuchException();
+        }
         getItemsInRoom().add(item);
     }
 
