@@ -23,7 +23,6 @@ public class House {
     }
 
     public void addRoom(Room room, RoomLocation roomLocation) throws SameRoomException {
-        iterateThroughRoomNames(room.getName());
         if (roomLocation.equals(RoomLocation.DOWNSTAIRS)) {
             downstairsRooms.add((DownstairsRoom) room);
         } else if (roomLocation.equals(RoomLocation.UPSTAIRS)) {
@@ -33,11 +32,16 @@ public class House {
         }
     }
 
-    public void deleteRoom(Room room) {
+    public void deleteRoom(Room room, RoomLocation roomLocation) {
+        if (roomLocation.equals(RoomLocation.DOWNSTAIRS)) {
+            downstairsRooms.remove(room);
+        } else if (roomLocation.equals(RoomLocation.UPSTAIRS)) {
+            upstairsRooms.remove(room);
+        } else if (roomLocation.equals(RoomLocation.LOFT)) {
+            loftsRooms.remove(room);
+        }
     }
 
-    public void iterateThroughRoomNames(String name) throws SameRoomException {
-    }
 
     public List<Room> getRooms() {
         List<Room> allRooms = new ArrayList<>();

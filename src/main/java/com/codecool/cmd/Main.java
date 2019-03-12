@@ -164,7 +164,7 @@ public class Main {
         } else if (userInput3.equals("2")) {
             addRoomToHouse(roomLocation);
         } else if (userInput3.equals("3")) {
-            removingRoomFromHouse();
+            removingRoomFromHouse(roomLocation);
         } else if (userInput3.equals("4")) {
             if (roomLocation.equals(RoomLocation.DOWNSTAIRS)) {
                 addItemToDownstairsRoom();
@@ -480,8 +480,11 @@ public class Main {
         }
     }
 
-    private void removingRoomFromHouse() {
-
+    private void removingRoomFromHouse(RoomLocation roomLocation) {
+        String userInput1 = getUserInput("Enter the name of the room you want to remove: ");
+        if (roomLocation.equals(RoomLocation.DOWNSTAIRS) && searchRoomInHouse(userInput1) != null) {
+            house.deleteRoom(searchRoomInHouse(userInput1), roomLocation);
+        }
     }
 
     private Room searchRoomInHouse(String name) {
@@ -491,9 +494,6 @@ public class Main {
             if (i.getName().equals(name)) {
                 searched = i;
             }
-        }
-        if (searched == null) {
-            System.out.println("Item not found.");
         }
         return searched;
     }
