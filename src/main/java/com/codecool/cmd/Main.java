@@ -3,6 +3,7 @@
 package com.codecool.cmd;
 
 import com.codecool.api.*;
+import com.codecool.api.exceptions.DontBelongHereException;
 import com.codecool.api.exceptions.RoomDoesntExistException;
 import com.codecool.api.exceptions.SameItemException;
 import com.codecool.api.exceptions.SameRoomException;
@@ -10,6 +11,22 @@ import com.codecool.api.exceptions.SameRoomException;
 import java.util.Scanner;
 
 public class Main {
+    // TODO:
+    //  Main:
+    //  1. something with same room exception doesnt work
+    //  2. private void addItemToDownstairsRoom()
+    //     ArrayList<Room> downstairsRooms = house.getDownstairsRooms();
+    //     Room room = downstairsRooms.get(addingToRoomIndex);
+    //     room.addItem(addingItem);
+    //  House:
+    //  1. private Map<RoomLocation, List<Room>> xxx;
+    //  2. public void addRoom(Room room, RoomLocation roomLocation)
+    //  List<Room> rooms = xxx.get(roomLocation);
+    //  rooms.add(room);
+    //  3. public ArrayList<DownstairsRoom> getDownstairsRooms() {
+    //  public ArrayList<Room> getDownstairsRooms() {
+    //  return xxx.get(RoomLocation.DOWNSTAIRS);
+
     private Scanner reader = new Scanner(System.in);
     private PlayerHandItems playerHandItems = new PlayerHandItems();
     private House house = new House();
@@ -39,6 +56,8 @@ public class Main {
                 System.out.println("Room already exists.");
             } catch (RoomDoesntExistException e3) {
                 System.out.println("Room doesn't exists.");
+            } catch (DontBelongHereException e) {
+                System.out.println("This item can't be added to this room, it doesn't belong here.");
             }
         }
     }
@@ -112,7 +131,7 @@ public class Main {
         }
     }
 
-    private void roomMenu() throws SameRoomException, RoomDoesntExistException {
+    private void roomMenu() throws SameRoomException, RoomDoesntExistException, DontBelongHereException {
         printMenu(printChildRoomsMenu());
         String userInput2 = getUserInput("Enter a number: ");
         if (userInput2.equals("1")) {
@@ -132,7 +151,7 @@ public class Main {
         }
     }
 
-    private void roomsChildMenu(RoomLocation roomLocation) throws SameRoomException, RoomDoesntExistException {
+    private void roomsChildMenu(RoomLocation roomLocation) throws SameRoomException, RoomDoesntExistException, DontBelongHereException {
         printMenu(printRoomsChildMenu());
         String userInput3 = getUserInput("Enter a number: ");
         if (userInput3.equals("1")) {
@@ -282,7 +301,7 @@ public class Main {
     }
 
     // Rooms menu methods
-    private void addItemToDownstairsRoom() throws RoomDoesntExistException {
+    private void addItemToDownstairsRoom() throws RoomDoesntExistException, DontBelongHereException {
         String nameOfItem = getUserInput("Enter the item you want to put down: ");
         Item addingItem = searchForItemInPlayerHand(nameOfItem);
         String roomToAddTo = getUserInput("Enter the room you want to put the item in: ");
@@ -412,10 +431,10 @@ public class Main {
             System.out.println("There aren't any rooms.");
         } else {
             int j = 1;
-            for (Item i : house.getDownstairsRooms().get(0).getItemsInRoom()
+            for (Room i : house.getDownstairsRooms()
             ) {
-                System.out.println("Items in the room: \nItem number: " + j + ". \nItem name: " + i.getNameOfItem() +
-                    "\nWhere it belongs: " + i.getTypeOfItem());
+                System.out.println("Items in the room: \nItem number: " + j + ". \nItem name: " + i.getName() +
+                    "\nWhere it belongs: " + i.getItemsInRoom());
                 j++;
             }
         }
@@ -426,10 +445,10 @@ public class Main {
             System.out.println("There aren't any rooms.");
         } else {
             int j = 1;
-            for (Item i : house.getUpstairsRooms().get(0).getItemsInRoom()
+            for (Room i : house.getUpstairsRooms()
             ) {
-                System.out.println("Items in the room: \nItem number: " + j + ". \nItem name: " + i.getNameOfItem() +
-                    "\nWhere it belongs: " + i.getTypeOfItem());
+                System.out.println("Items in the room: \nItem number: " + j + ". \nItem name: " + i.getName() +
+                    "\nWhere it belongs: " + i.getItemsInRoom());
                 j++;
             }
         }
@@ -440,10 +459,10 @@ public class Main {
             System.out.println("There aren't any rooms.");
         } else {
             int j = 1;
-            for (Item i : house.getLofts().get(0).getItemsInRoom()
+            for (Room i : house.getLofts()
             ) {
-                System.out.println("Items in the room: \nItem number: " + j + ". \nItem name: " + i.getNameOfItem() +
-                    "\nWhere it belongs: " + i.getTypeOfItem());
+                System.out.println("Items in the room: \nItem number: " + j + ". \nItem name: " + i.getName() +
+                    "\nWhere it belongs: " + i.getItemsInRoom());
                 j++;
             }
         }

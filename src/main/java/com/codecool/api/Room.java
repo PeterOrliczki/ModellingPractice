@@ -1,5 +1,7 @@
 package com.codecool.api;
 
+import com.codecool.api.exceptions.DontBelongHereException;
+
 import java.util.ArrayList;
 
 public abstract class Room{
@@ -14,7 +16,7 @@ public abstract class Room{
         itemsInRoom = new ArrayList<>();
     }
 
-    public abstract void addItem(Item item);
+    public abstract void addItem(Item item) throws DontBelongHereException;
 
     public abstract void removeItem(Item item);
 

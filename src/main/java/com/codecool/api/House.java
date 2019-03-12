@@ -3,16 +3,15 @@ package com.codecool.api;
 import com.codecool.api.exceptions.SameRoomException;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class House {
-    private ArrayList<Room> rooms;
     private ArrayList<DownstairsRoom> downstairsRooms;
     private ArrayList<UpstairsRoom> upstairsRooms;
     private ArrayList<Loft> lofts;
     private ArrayList<ArrayList> state;
 
     public House() {
-        rooms = new ArrayList<>();
         downstairsRooms = new ArrayList<>();
         upstairsRooms = new ArrayList<>();
         lofts = new ArrayList<>();
@@ -35,20 +34,17 @@ public class House {
     }
 
     public void deleteRoom(Room room) {
-        rooms.remove(room);
     }
 
     public void iterateThroughRoomNames(String name) throws SameRoomException {
-        for (Room room : rooms) {
-            if (room.getName().equals(name)) {
-                throw new SameRoomException();
-            }
-        }
-
     }
 
-    public ArrayList<Room> getRooms() {
-        return rooms;
+    public List<Room> getRooms() {
+        List<Room> allRooms = new ArrayList<>();
+        allRooms.addAll(downstairsRooms);
+        allRooms.addAll(upstairsRooms);
+        allRooms.addAll(lofts);
+        return allRooms;
     }
 
     public ArrayList<DownstairsRoom> getDownstairsRooms() {

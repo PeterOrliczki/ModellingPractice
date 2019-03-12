@@ -1,5 +1,7 @@
 package com.codecool.api;
 
+import com.codecool.api.exceptions.DontBelongHereException;
+
 public class DownstairsRoom extends Room {
 
     public DownstairsRoom(String name, RoomLocation roomLocation) {
@@ -7,7 +9,10 @@ public class DownstairsRoom extends Room {
     }
 
     @Override
-    public void addItem(Item item) {
+    public void addItem(Item item) throws DontBelongHereException {
+        if (item.getTypeOfItem() == RoomType.KITCHEN) {
+            throw new DontBelongHereException();
+        }
         getItemsInRoom().add(item);
     }
 
