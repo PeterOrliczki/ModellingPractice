@@ -3,6 +3,7 @@
 package com.codecool.cmd;
 
 import com.codecool.api.*;
+import com.codecool.api.exceptions.RoomDoesntExistException;
 import com.codecool.api.exceptions.SameItemException;
 import com.codecool.api.exceptions.SameRoomException;
 
@@ -36,6 +37,8 @@ public class Main {
                 System.out.println("Item already exists.");
             } catch (SameRoomException e2) {
                 System.out.println("Room already exists.");
+            } catch (RoomDoesntExistException e3) {
+                System.out.println("Room doesn't exists.");
             }
         }
     }
@@ -109,7 +112,7 @@ public class Main {
         }
     }
 
-    private void roomMenu() throws SameRoomException {
+    private void roomMenu() throws SameRoomException, RoomDoesntExistException {
         printMenu(printChildRoomsMenu());
         String userInput2 = getUserInput("Enter a number: ");
         if (userInput2.equals("1")) {
@@ -129,7 +132,7 @@ public class Main {
         }
     }
 
-    private void roomsChildMenu(RoomLocation roomLocation) throws SameRoomException {
+    private void roomsChildMenu(RoomLocation roomLocation) throws SameRoomException, RoomDoesntExistException {
         printMenu(printRoomsChildMenu());
         String userInput3 = getUserInput("Enter a number: ");
         if (userInput3.equals("1")) {
@@ -279,7 +282,7 @@ public class Main {
     }
 
     // Rooms menu methods
-    private void addItemToDownstairsRoom() {
+    private void addItemToDownstairsRoom() throws RoomDoesntExistException {
         String nameOfItem = getUserInput("Enter the item you want to put down: ");
         Item addingItem = searchForItemInPlayerHand(nameOfItem);
         String roomToAddTo = getUserInput("Enter the room you want to put the item in: ");
@@ -288,7 +291,7 @@ public class Main {
         house.getDownstairsRooms().get(addingToRoomIndex).addItem(addingItem);
     }
 
-    private void addItemToUpstairsRoom() {
+    private void addItemToUpstairsRoom() throws RoomDoesntExistException {
         String nameOfItem = getUserInput("Enter the item you want to put down: ");
         Item addingItem = searchForItemInPlayerHand(nameOfItem);
         String roomToAddTo = getUserInput("Enter the room you want to put the item in: ");
@@ -297,7 +300,7 @@ public class Main {
         house.getUpstairsRooms().get(addingToRoomIndex).addItem(addingItem);
     }
 
-    private void addItemToLoft() {
+    private void addItemToLoft() throws RoomDoesntExistException {
         String nameOfItem = getUserInput("Enter the item you want to put down: ");
         Item addingItem = searchForItemInPlayerHand(nameOfItem);
         String roomToAddTo = getUserInput("Enter the room you want to put the item in: ");
@@ -306,7 +309,7 @@ public class Main {
         house.getLofts().get(addingToRoomIndex).addItem(addingItem);
     }
 
-    private void removeItemFromDownstairsRoom() {
+    private void removeItemFromDownstairsRoom() throws RoomDoesntExistException {
         String nameOfItem = getUserInput("Enter the item you want to remove from here: ");
         Item removingItem = searchForItemInRoom(nameOfItem);
         String roomToRemoveFrom = getUserInput("Enter the room you want to put the item in: ");
@@ -315,7 +318,7 @@ public class Main {
         house.getDownstairsRooms().get(removingFromRoomIndex).removeItem(removingItem);
     }
 
-    private void removeItemFromUpstairsRoom() {
+    private void removeItemFromUpstairsRoom() throws RoomDoesntExistException {
         String nameOfItem = getUserInput("Enter the item you want to remove from here: ");
         Item removingItem = searchForItemInRoom(nameOfItem);
         String roomToRemoveFrom = getUserInput("Enter the room you want to put the item in: ");
@@ -324,7 +327,7 @@ public class Main {
         house.getUpstairsRooms().get(removingFromRoomIndex).removeItem(removingItem);
     }
 
-    private void removeItemFromLoft() {
+    private void removeItemFromLoft() throws RoomDoesntExistException {
         String nameOfItem = getUserInput("Enter the item you want to remove from here: ");
         Item removingItem = searchForItemInRoom(nameOfItem);
         String roomToRemoveFrom = getUserInput("Enter the room you want to put the item in: ");
@@ -347,7 +350,7 @@ public class Main {
         return searchedItem;
     }
 
-    private int searchForDownstairsRoomInHouse(String roomName) {
+    private int searchForDownstairsRoomInHouse(String roomName) throws RoomDoesntExistException {
         Room searched = null;
         for (Room i : house.getDownstairsRooms()
         ) {
@@ -356,12 +359,12 @@ public class Main {
             }
         }
         if (searched == null) {
-            System.out.println("Room not found."); // add exception here
+            throw new RoomDoesntExistException();
         }
         return house.getDownstairsRooms().indexOf(searched);
     }
 
-    private int searchForUpstairsRoomInHouse(String roomName) {
+    private int searchForUpstairsRoomInHouse(String roomName) throws RoomDoesntExistException {
         Room searched = null;
         for (Room i : house.getUpstairsRooms()
         ) {
@@ -370,12 +373,12 @@ public class Main {
             }
         }
         if (searched == null) {
-            System.out.println("Room not found.");
+            throw new RoomDoesntExistException();
         }
         return house.getUpstairsRooms().indexOf(searched);
     }
 
-    private int searchForLoftInHouse(String roomName) {
+    private int searchForLoftInHouse(String roomName) throws RoomDoesntExistException {
         Room searched = null;
         for (Room i : house.getLofts()
         ) {
@@ -384,7 +387,7 @@ public class Main {
             }
         }
         if (searched == null) {
-            System.out.println("Room not found.");
+            throw new RoomDoesntExistException();
         }
         return house.getLofts().indexOf(searched);
     }
