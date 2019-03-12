@@ -43,7 +43,7 @@ public class Main {
         }
     }
 
-    // Menu methods
+    // Larger menu methods
     private String getUserInput(String text) {
         System.out.println(text);
         return reader.nextLine();
