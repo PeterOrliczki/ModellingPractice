@@ -97,7 +97,7 @@ public class Main {
     }
 
     private String[] printRoomsChildMenu() {
-        String[] printing = {"List rooms", "Add room", "Remove room", "Add an item to a room", "Remove an item from a room"};
+        String[] printing = {"List room", "Add room", "Remove room", "Add an item to a room", "Remove an item from a room"};
         return printing;
     }
 
@@ -421,10 +421,7 @@ public class Main {
     }
 
     private void state() {
-        house.addToState(house.getDownstairsRooms());
-        house.addToState(house.getUpstairsRooms());
-        house.addToState(house.getLoftsRooms());
-        System.out.println(house.getState());
+        System.out.println(house.getRooms());
     }
 
 
@@ -435,8 +432,8 @@ public class Main {
             int j = 1;
             for (Room i : house.getDownstairsRooms()
             ) {
-                System.out.println("Items in the room: \nItem number: " + j + ". \nItem name: " + i.getName() +
-                    "\nWhere it belongs: " + i.getItemsInRoom());
+                System.out.println("Room listing: \nRoom number: " + j + ". \nRoom name: " + i.getName() +
+                    "\nThe items it has: " + i.getItemsInRoom());
                 j++;
             }
         }
@@ -449,8 +446,8 @@ public class Main {
             int j = 1;
             for (Room i : house.getUpstairsRooms()
             ) {
-                System.out.println("Items in the room: \nItem number: " + j + ". \nItem name: " + i.getName() +
-                    "\nWhere it belongs: " + i.getItemsInRoom());
+                System.out.println("Room listing: \nRoom number: " + j + ". \nRoom name: " + i.getName() +
+                    "\nThe items it has: " + i.getItemsInRoom());
                 j++;
             }
         }
@@ -463,8 +460,8 @@ public class Main {
             int j = 1;
             for (Room i : house.getLoftsRooms()
             ) {
-                System.out.println("Items in the room: \nItem number: " + j + ". \nItem name: " + i.getName() +
-                    "\nWhere it belongs: " + i.getItemsInRoom());
+                System.out.println("Room listing: \nRoom number: " + j + ". \nRoom name: " + i.getName() +
+                    "\nThe items it has: " + i.getItemsInRoom());
                 j++;
             }
         }
