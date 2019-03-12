@@ -12,9 +12,6 @@ public class Main {
     private Scanner reader = new Scanner(System.in);
     private PlayerHandItems playerHandItems = new PlayerHandItems();
     private House house = new House();
-//    private Room downstairsRoom = new DownstairsRoom("default_downstairsRoom", RoomLocation.DOWNSTAIRS);
-//    private Room upstairsRoom = new UpstairsRoom("default_upstairsRoom", RoomLocation.UPSTAIRS);
-//    private Room loft = new Loft("default_loft", RoomLocation.LOFT);
 
     public static void main(String[] args) {
         Main main = new Main();
@@ -285,22 +282,28 @@ public class Main {
     private void addItemToDownstairsRoom() {
         String nameOfItem = getUserInput("Enter the item you want to put down: ");
         Item addingItem = searchForItemInPlayerHand(nameOfItem);
+        String roomToAddTo = getUserInput("Enter the room you want to put the item in: ");
+        int addingToRoomIndex = searchForDownstairsRoomInHouse(roomToAddTo);
         playerHandItems.putDownItem(addingItem);
-        house.getDownstairsRooms().get(0).addItem(addingItem);
+        house.getDownstairsRooms().get(addingToRoomIndex).addItem(addingItem);
     }
 
     private void addItemToUpstairsRoom() {
         String nameOfItem = getUserInput("Enter the item you want to put down: ");
         Item addingItem = searchForItemInPlayerHand(nameOfItem);
+        String roomToAddTo = getUserInput("Enter the room you want to put the item in: ");
+        int addingToRoomIndex = searchForUpstairsRoomInHouse(roomToAddTo);
         playerHandItems.putDownItem(addingItem);
-        house.getUpstairsRooms().get(0).addItem(addingItem);
+        house.getUpstairsRooms().get(addingToRoomIndex).addItem(addingItem);
     }
 
     private void addItemToLoft() {
         String nameOfItem = getUserInput("Enter the item you want to put down: ");
         Item addingItem = searchForItemInPlayerHand(nameOfItem);
+        String roomToAddTo = getUserInput("Enter the room you want to put the item in: ");
+        int addingToRoomIndex = searchForLoftInHouse(roomToAddTo);
         playerHandItems.putDownItem(addingItem);
-        house.getLofts().get(0).addItem(addingItem);
+        house.getUpstairsRooms().get(addingToRoomIndex).addItem(addingItem);
     }
 
     private void removeItemFromDownstairsRoom() {
@@ -336,6 +339,48 @@ public class Main {
             System.out.println("There's no such item.");
         }
         return searchedItem;
+    }
+
+    private int searchForDownstairsRoomInHouse(String roomName) {
+        Room searched = null;
+        for (Room i : house.getDownstairsRooms()
+        ) {
+            if (i.getName().equals(roomName)) {
+                searched = i;
+            }
+        }
+        if (searched == null) {
+            System.out.println("Room not found.");
+        }
+        return house.getDownstairsRooms().indexOf(searched);
+    }
+
+    private int searchForUpstairsRoomInHouse(String roomName) {
+        Room searched = null;
+        for (Room i : house.getUpstairsRooms()
+        ) {
+            if (i.getName().equals(roomName)) {
+                searched = i;
+            }
+        }
+        if (searched == null) {
+            System.out.println("Room not found.");
+        }
+        return house.getUpstairsRooms().indexOf(searched);
+    }
+
+    private int searchForLoftInHouse(String roomName) {
+        Room searched = null;
+        for (Room i : house.getLofts()
+        ) {
+            if (i.getName().equals(roomName)) {
+                searched = i;
+            }
+        }
+        if (searched == null) {
+            System.out.println("Room not found.");
+        }
+        return house.getLofts().indexOf(searched);
     }
 
     // house menu methods
@@ -397,14 +442,12 @@ public class Main {
 
     private void addRoomToHouse(RoomLocation roomLocation) throws SameRoomException {
         String userInput1 = getUserInput("Enter the name of the new room: ");
-        if (roomLocation.equals(RoomLocation.DOWNSTAIRS) && house.getDownstairsRooms().size() < 1) {
+        if (roomLocation.equals(RoomLocation.DOWNSTAIRS)) {
             house.addRoom(new DownstairsRoom(userInput1, RoomLocation.DOWNSTAIRS), roomLocation);
-        } else if (roomLocation.equals(RoomLocation.UPSTAIRS) && house.getUpstairsRooms().size() < 1) {
+        } else if (roomLocation.equals(RoomLocation.UPSTAIRS)) {
             house.addRoom(new UpstairsRoom(userInput1, RoomLocation.UPSTAIRS), roomLocation);
-        } else if (roomLocation.equals(RoomLocation.LOFT) && house.getLofts().size() < 1) {
+        } else if (roomLocation.equals(RoomLocation.LOFT)) {
             house.addRoom(new Loft(userInput1, RoomLocation.LOFT), roomLocation);
-        } else {
-            System.out.println("There's already a room there.");
         }
     }
 
