@@ -1,7 +1,5 @@
 package com.codecool.api;
 
-import com.codecool.api.exceptions.SameRoomException;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,11 +16,8 @@ public class House {
         state = new ArrayList<>();
     }
 
-    public void addToState(ArrayList room) {
-        state.add(room);
-    }
 
-    public void addRoom(Room room, RoomLocation roomLocation) throws SameRoomException {
+    public void addRoom(Room room, RoomLocation roomLocation) {
         if (roomLocation.equals(RoomLocation.DOWNSTAIRS)) {
             downstairsRooms.add((DownstairsRoom) room);
         } else if (roomLocation.equals(RoomLocation.UPSTAIRS)) {
