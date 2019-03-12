@@ -1,4 +1,4 @@
-package com.codecool.api;
+package com.codecool.api.exceptions;
 
 public class SameRoomException extends Exception {
     public SameRoomException() {

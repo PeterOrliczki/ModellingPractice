@@ -1,4 +1,4 @@
-package com.codecool.api;
+package com.codecool.api.exceptions;
 
 public class SameItemException extends Exception {
     public SameItemException() {

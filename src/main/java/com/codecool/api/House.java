@@ -1,5 +1,7 @@
 package com.codecool.api;
 
+import com.codecool.api.exceptions.SameRoomException;
+
 import java.util.ArrayList;
 
 public class House {
