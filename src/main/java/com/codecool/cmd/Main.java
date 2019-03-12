@@ -18,6 +18,7 @@ public class Main {
     //     ArrayList<Room> downstairsRooms = house.getDownstairsRooms();
     //     Room room = downstairsRooms.get(addingToRoomIndex);
     //     room.addItem(addingItem);
+    //  3. private void removingRoomFromHouse() {
     //  House:
     //  1. private Map<RoomLocation, List<Room>> xxx;
     //  2. public void addRoom(Room room, RoomLocation roomLocation)
@@ -43,8 +44,6 @@ public class Main {
                     main.playerHandMenu();
                 } else if (userInput1.equals("3")) {
                     main.roomMenu();
-                } else if (userInput1.equals("4")) {
-                    main.roomPrintTest();
                 } else if (userInput1.equals("\n")) {
                     System.out.println("You didn't enter anything, going back to main menu.");
                 } else {
@@ -480,9 +479,7 @@ public class Main {
     }
 
     private void removingRoomFromHouse() {
-        String userInput1 = getUserInput("Enter the item you want to remove: ");
-        Room deletingRoom = searchRoomInHouse(userInput1);
-        house.deleteRoom(deletingRoom);
+
     }
 
     private Room searchRoomInHouse(String name) {
@@ -497,10 +494,6 @@ public class Main {
             System.out.println("Item not found.");
         }
         return null;
-    }
-
-    private void roomPrintTest() {
-        System.out.println(house.getUpstairsRooms());
     }
 }
 
