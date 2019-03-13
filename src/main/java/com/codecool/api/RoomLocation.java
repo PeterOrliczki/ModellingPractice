@@ -1,6 +1,8 @@
 package com.codecool.api;
 
-public enum RoomLocation {
+import java.io.Serializable;
+
+public enum RoomLocation implements Serializable {
     DOWNSTAIRS,
     UPSTAIRS,
     LOFT

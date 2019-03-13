@@ -3,14 +3,11 @@
 package com.codecool.cmd;
 
 import com.codecool.api.*;
-import com.codecool.api.exceptions.SameItemException;
-import com.codecool.api.exceptions.SameRoomException;
 import com.codecool.api.exceptions.*;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 import java.io.*;
-import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
@@ -34,9 +31,7 @@ public class Main {
     private Scanner reader = new Scanner(System.in);
     private PlayerHandItems playerHandItems = new PlayerHandItems();
     private House house = new House();
-    private RoomsXML roomsXML = new RoomsXML("./RoomsItems.xml");
-    private ArrayList<Room> items = roomsXML.getItems();
-    private XMLWriting saveToXML = new XMLWriting();
+
 
     public static void main(String[] args) {
         Main main = new Main();
@@ -51,9 +46,9 @@ public class Main {
                 } else if (userInput1.equals("3")) {
                     main.roomMenu();
                 } else if (userInput1.equals("4")) {
-                    main.saveMenu();
+                    main.save();
                 } else if (userInput1.equals("5")) {
-                    main.loadMenu();
+                    main.load();
                 } else if (userInput1.equals("\n")) {
                     System.out.println("You didn't enter anything, going back to main menu.");
                 } else {
@@ -76,6 +71,8 @@ public class Main {
             } catch (TransformerException e7) {
                 System.out.println("Couldn't save state.");
             } catch (ParserConfigurationException e8) {
+                System.out.println("Couldn't save state.");
+            } catch (ClassNotFoundException e9) {
                 System.out.println("Couldn't save state.");
             }
         }
@@ -104,7 +101,7 @@ public class Main {
     }
 
     private String[] printChildRoomsMenu() {
-        String[] printing = {"Downstairs room menu", "Upstairs room menu", "Loft menu", "Show all rooms", "State", "Save state"};
+        String[] printing = {"Downstairs room menu", "Upstairs room menu", "Loft menu", "Show all rooms"};
         return printing;
     }
 
@@ -161,10 +158,6 @@ public class Main {
             roomsChildMenu(RoomLocation.LOFT);
         } else if (userInput2.equals("4")) {
             listRooms();
-        } else if (userInput2.equals("5")) {
-            state();
-        } else if (userInput2.equals("6")) {
-            saveToXML.writeRooms(items, "Items");
         } else if (userInput2.equals("\n")) {
             System.out.println("You didn't enter anything, going back to main menu.");
         } else {
@@ -204,22 +197,6 @@ public class Main {
                 removeItemFromLoft();
             }
         } else if (userInput3.equals("\n")) {
-            System.out.println("You didn't enter anything, going back to main menu.");
-        } else {
-            System.out.println("There's no such option.");
-        }
-    }
-
-    private void houseMenu() {
-        printMenu(printGeneralSubMenu());
-        String userInput1 = getUserInput("Enter a number: ");
-        if (userInput1.equals("1")) {
-
-        } else if (userInput1.equals("2")) {
-
-        } else if (userInput1.equals("3")) {
-
-        } else if (userInput1.equals("\n")) {
             System.out.println("You didn't enter anything, going back to main menu.");
         } else {
             System.out.println("There's no such option.");
@@ -345,8 +322,8 @@ public class Main {
         Item addingItem = searchForItemInPlayerHand(nameOfItem);
         String roomToAddTo = getUserInput("Enter the room you want to put the item in: ");
         int addingToRoomIndex = searchForLoftInHouse(roomToAddTo);
-        playerHandItems.putDownItem(addingItem);
         house.getLoftsRooms().get(addingToRoomIndex).addItem(addingItem, playerHandItems);
+        playerHandItems.putDownItem(addingItem);
     }
 
     private void removeItemFromDownstairsRoom() throws RoomDoesntExistException {
@@ -354,8 +331,8 @@ public class Main {
         Item removingItem = searchForItemInRoom(nameOfItem);
         String roomToRemoveFrom = getUserInput("Enter the room you want to remove the item from: ");
         int removingFromRoomIndex = searchForDownstairsRoomInHouse(roomToRemoveFrom);
-        playerHandItems.pickUpItem(removingItem);
         house.getDownstairsRooms().get(removingFromRoomIndex).removeItem(removingItem);
+        playerHandItems.pickUpItem(removingItem);
     }
 
     private void removeItemFromUpstairsRoom() throws RoomDoesntExistException {
@@ -363,8 +340,8 @@ public class Main {
         Item removingItem = searchForItemInRoom(nameOfItem);
         String roomToRemoveFrom = getUserInput("Enter the room you want to remove the item from: ");
         int removingFromRoomIndex = searchForUpstairsRoomInHouse(roomToRemoveFrom);
-        playerHandItems.pickUpItem(removingItem);
         house.getUpstairsRooms().get(removingFromRoomIndex).removeItem(removingItem);
+        playerHandItems.pickUpItem(removingItem);
     }
 
     private void removeItemFromLoft() throws RoomDoesntExistException {
@@ -439,9 +416,9 @@ public class Main {
         System.out.println(house.getLoftsRooms());
     }
 
-    private void state() {
-        System.out.println(house.getRooms());
-    }
+//    private void state() {
+//        System.out.println(house.getRooms());
+//    }
 
     private void listDownstairsRoomsByLocation() {
         if (house.getDownstairsRooms().size() == 0) {
@@ -517,33 +494,21 @@ public class Main {
     }
 
     // serializer methods
-    private Room loadMenu() {
-        Room room = null;
-        try {
-            FileInputStream fileIn = new FileInputStream("./House.ser");
-            ObjectInputStream in = new ObjectInputStream(fileIn);
-            room = (Room) in.readObject();
-            in.close();
-            fileIn.close();
-            System.out.println("Data loaded!");
-        } catch (Exception e) {
-            System.out.println("Load failed");
-        }
-        return room;
-    }
-
-    public void saveMenu() throws IOException {
-        save();
-        System.out.println("Data saved!");
-    }
-
-    public void save() throws IOException {
-        FileOutputStream fileOut = new FileOutputStream("./House.ser");
+    private void save() throws IOException {
+        FileOutputStream fileOut = new FileOutputStream("./serializing.ser");
         ObjectOutputStream out = new ObjectOutputStream(fileOut);
-        out.writeObject(this);
+        out.writeObject(house);
         out.close();
         fileOut.close();
+        System.out.printf("\nSerialized data is saved in serializing.ser\n");
     }
 
+    public void load() throws IOException, ClassNotFoundException {
+        house = null;
+        FileInputStream fileIn = new FileInputStream("./serializing.ser");
+        ObjectInputStream in = new ObjectInputStream(fileIn);
+        house = (House) in.readObject();
+        in.close();
+        fileIn.close();
+    }
 }
-

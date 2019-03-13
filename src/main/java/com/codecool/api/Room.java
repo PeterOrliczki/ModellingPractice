@@ -2,9 +2,10 @@ package com.codecool.api;
 
 import com.codecool.api.exceptions.CollapsingFromCarryingWayTooMuchException;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public abstract class Room{
+public abstract class Room implements Serializable {
     private String name;
     private RoomLocation roomLocation;
     private int maxItems;

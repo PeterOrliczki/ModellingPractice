@@ -1,8 +1,10 @@
 package com.codecool.api;
 
-public enum RoomType{
+import java.io.Serializable;
+
+public enum RoomType implements Serializable {
     LIVINGROOM,
     KITCHEN,
     BEDROOM,
-    BATHROOM;
+    BATHROOM
 }

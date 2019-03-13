@@ -1,6 +1,8 @@
 package com.codecool.api.exceptions;
 
-public class CollapsingFromCarryingWayTooMuchException extends Exception {
+import java.io.Serializable;
+
+public class CollapsingFromCarryingWayTooMuchException extends Exception implements Serializable {
     public CollapsingFromCarryingWayTooMuchException() {
     }
 

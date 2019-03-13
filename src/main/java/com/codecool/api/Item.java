@@ -1,6 +1,8 @@
 package com.codecool.api;
 
-public class Item{
+import java.io.Serializable;
+
+public class Item implements Serializable {
     private String nameOfItem;
     private RoomType typeOfItem;
 

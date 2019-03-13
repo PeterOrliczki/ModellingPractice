@@ -1,6 +1,8 @@
 package com.codecool.api.exceptions;
 
-public class DontBelongHereException extends Exception {
+import java.io.Serializable;
+
+public class DontBelongHereException extends Exception implements Serializable {
 
     public DontBelongHereException() {
     }

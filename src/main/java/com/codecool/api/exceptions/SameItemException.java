@@ -1,6 +1,8 @@
 package com.codecool.api.exceptions;
 
-public class SameItemException extends Exception {
+import java.io.Serializable;
+
+public class SameItemException extends Exception implements Serializable {
     public SameItemException() {
     }
 

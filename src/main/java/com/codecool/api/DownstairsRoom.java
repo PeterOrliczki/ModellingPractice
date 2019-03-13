@@ -2,7 +2,9 @@ package com.codecool.api;
 
 import com.codecool.api.exceptions.CollapsingFromCarryingWayTooMuchException;
 
-public class DownstairsRoom extends Room {
+import java.io.Serializable;
+
+public class DownstairsRoom extends Room implements Serializable {
 
     public DownstairsRoom(String name, RoomLocation roomLocation) {
         super(name, roomLocation);

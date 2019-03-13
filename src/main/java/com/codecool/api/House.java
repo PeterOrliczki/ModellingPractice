@@ -1,9 +1,10 @@
 package com.codecool.api;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class House {
+public class House implements Serializable {
     private ArrayList<DownstairsRoom> downstairsRooms;
     private ArrayList<UpstairsRoom> upstairsRooms;
     private ArrayList<Loft> loftsRooms;

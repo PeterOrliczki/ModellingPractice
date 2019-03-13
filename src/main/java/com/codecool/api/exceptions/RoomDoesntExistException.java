@@ -1,6 +1,8 @@
 package com.codecool.api.exceptions;
 
-public class RoomDoesntExistException extends Exception {
+import java.io.Serializable;
+
+public class RoomDoesntExistException extends Exception implements Serializable {
 
     public RoomDoesntExistException() {
     }
