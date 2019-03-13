@@ -269,7 +269,7 @@ public class House implements Serializable {
     }
 
     public void removingRoomFromHouse(String userInput1, RoomLocation roomLocation) {
-        if (roomLocation.equals(RoomLocation.DOWNSTAIRS) && searchRoomInHouse(userInput1) != null) {
+        if (searchRoomInHouse(userInput1) != null) {
             this.deleteRoom(searchRoomInHouse(userInput1), roomLocation);
         }
     }
@@ -304,7 +304,6 @@ public class House implements Serializable {
             loftsRooms.remove(room);
         }
     }
-
 
     public List<Room> getRooms() {
         List<Room> allRooms = new ArrayList<>();
