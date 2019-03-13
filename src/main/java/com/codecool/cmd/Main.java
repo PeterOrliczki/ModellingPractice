@@ -500,7 +500,7 @@ public class Main {
         out.writeObject(house);
         out.close();
         fileOut.close();
-        System.out.printf("\nSerialized data is saved in serializing.ser\n");
+        System.out.println("\nSerialized data is saved in serializing.ser\n");
     }
 
     public void load() throws IOException, ClassNotFoundException {
@@ -510,5 +510,6 @@ public class Main {
         house = (House) in.readObject();
         in.close();
         fileIn.close();
+        System.out.println("\nSerialized data is loaded from serializing.ser\n");
     }
 }

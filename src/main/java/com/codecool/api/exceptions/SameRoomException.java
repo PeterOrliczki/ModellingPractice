@@ -1,8 +1,6 @@
 package com.codecool.api.exceptions;
 
-import java.io.Serializable;
-
-public class SameRoomException extends Exception implements Serializable {
+public class SameRoomException extends Exception  {
     public SameRoomException() {
     }
 
