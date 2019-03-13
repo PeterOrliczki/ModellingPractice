@@ -2,7 +2,9 @@
 
 package com.codecool.cmd;
 
-import com.codecool.api.*;
+import com.codecool.api.House;
+import com.codecool.api.PlayerHandItems;
+import com.codecool.api.RoomLocation;
 import com.codecool.api.exceptions.*;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -27,6 +29,7 @@ public class Main {
     //  3. public ArrayList<DownstairsRoom> getDownstairsRooms() {
     //  public ArrayList<Room> getDownstairsRooms() {
     //  return xxx.get(RoomLocation.DOWNSTAIRS);
+    //  4. list an individual rooms items
 
     private Scanner reader = new Scanner(System.in);
     private PlayerHandItems playerHandItems = new PlayerHandItems();
@@ -205,292 +208,100 @@ public class Main {
 
     // Item menu methods
     private void listAllItems() {
-        if (playerHandItems.getAllItems().size() == 0) {
-            System.out.println("There are no items.");
-        } else {
-            int j = 1;
-            for (Item i : playerHandItems.getAllItems()
-            ) {
-                System.out.println("Item number: " + j + ". \nName: " + i.getNameOfItem() + "\n" +
-                    "The room it belongs to: " + i.getTypeOfItem() + "\n");
-                j++;
-            }
-        }
+        house.listAllItems(playerHandItems);
     }
 
     private void addItemToAllItems() throws SameItemException {
         String nameOfItem = getUserInput("What's the item?");
         printMenu(printItemTypeMenu());
         String typeOfItem = getUserInput("Where does it belong to?");
-        if (typeOfItem.equals("1")) {
-            playerHandItems.addItemToAllItems(new Item(nameOfItem, RoomType.LIVINGROOM));
-        } else if (typeOfItem.equals("2")) {
-            playerHandItems.addItemToAllItems(new Item(nameOfItem, RoomType.KITCHEN));
-        } else if (typeOfItem.equals("3")) {
-            playerHandItems.addItemToAllItems(new Item(nameOfItem, RoomType.BEDROOM));
-        } else if (typeOfItem.equals("4")) {
-            playerHandItems.addItemToAllItems(new Item(nameOfItem, RoomType.BATHROOM));
-        } else if (typeOfItem.equals("\n")) {
-            System.out.println("You didn't enter anything, going back to main menu.");
-        } else {
-            System.out.println("There's no such option.");
-        }
+        house.addItemToAllItems(nameOfItem, typeOfItem, playerHandItems);
     }
 
     private void removeItemFromAllItems() {
         String removingItemName = getUserInput("What's the item you want to remove?");
-        Item removingItem = searchItemInAllItems(removingItemName);
-        playerHandItems.removeItemFromAllItems(removingItem);
+        house.removeItemFromAllItems(removingItemName, playerHandItems);
     }
 
-    private Item searchItemInAllItems(String item) {
-        Item searchedItem = null;
-        for (Item i : playerHandItems.getAllItems()
-        ) {
-            if (i.getNameOfItem().equals(item)) {
-                searchedItem = i;
-            }
-        }
-        if (searchedItem == null) {
-            System.out.println("Item not found.");
-        }
-        return searchedItem;
-    }
 
     // Player hand menu methods
     private void listPlayerHandItems() {
-        if (playerHandItems.getItemsInPlayerHand().size() == 0) {
-            System.out.println("There's nothing in your hand");
-        } else {
-            int j = 1;
-            for (Item i : playerHandItems.getItemsInPlayerHand()
-            ) {
-                System.out.println("Item number: " + j + ". \nItem Name: " + i.getNameOfItem() + "\n" +
-                    "The room it belongs to: " + i.getTypeOfItem() + "\n");
-                j++;
-            }
-        }
+        house.listPlayerHandItems(playerHandItems);
     }
 
     private void addItemToPlayerHand() {
         String nameOfItem = getUserInput("Enter the item you want to pick up: ");
-        Item addingItem = searchForItemInPlayerHand(nameOfItem);
-        playerHandItems.pickUpItem(addingItem);
+        house.addItemToPlayerHand(nameOfItem, playerHandItems);
     }
 
     private void removeItemFromPlayerHand() {
         String nameOfItem = getUserInput("Enter the item you want to pick up: ");
-        Item removingItem = searchForItemInPlayerHand(nameOfItem);
-        playerHandItems.putDownItem(removingItem);
-    }
-
-    private Item searchForItemInPlayerHand(String item) {
-        Item searchedItem = null;
-        for (Item i : playerHandItems.getAllItems()
-        ) {
-            if (i.getNameOfItem().equals(item)) {
-                searchedItem = i;
-            }
-        }
-        if (searchedItem == null) {
-            System.out.println("Item not found.");
-        }
-        return searchedItem;
+        house.removeItemFromPlayerHand(nameOfItem, playerHandItems);
     }
 
     // Rooms menu methods
     private void addItemToDownstairsRoom() throws RoomDoesntExistException, DontBelongHereException, CollapsingFromCarryingWayTooMuchException {
         String nameOfItem = getUserInput("Enter the item you want to put down: ");
-        Item addingItem = searchForItemInPlayerHand(nameOfItem);
         String roomToAddTo = getUserInput("Enter the room you want to put the item in: ");
-        int addingToRoomIndex = searchForDownstairsRoomInHouse(roomToAddTo);
-        playerHandItems.putDownItem(addingItem);
-        house.getDownstairsRooms().get(addingToRoomIndex).addItem(addingItem, playerHandItems);
+        house.addItemToDownstairsRoom(nameOfItem, roomToAddTo, playerHandItems);
     }
 
     private void addItemToUpstairsRoom() throws RoomDoesntExistException, CollapsingFromCarryingWayTooMuchException {
         String nameOfItem = getUserInput("Enter the item you want to put down: ");
-        Item addingItem = searchForItemInPlayerHand(nameOfItem);
         String roomToAddTo = getUserInput("Enter the room you want to put the item in: ");
-        int addingToRoomIndex = searchForUpstairsRoomInHouse(roomToAddTo);
-        playerHandItems.putDownItem(addingItem);
-        house.getUpstairsRooms().get(addingToRoomIndex).addItem(addingItem, playerHandItems);
+        house.addItemToUpstairsRoom(nameOfItem, roomToAddTo, playerHandItems);
     }
 
     private void addItemToLoft() throws RoomDoesntExistException, CollapsingFromCarryingWayTooMuchException {
         String nameOfItem = getUserInput("Enter the item you want to put down: ");
-        Item addingItem = searchForItemInPlayerHand(nameOfItem);
         String roomToAddTo = getUserInput("Enter the room you want to put the item in: ");
-        int addingToRoomIndex = searchForLoftInHouse(roomToAddTo);
-        house.getLoftsRooms().get(addingToRoomIndex).addItem(addingItem, playerHandItems);
-        playerHandItems.putDownItem(addingItem);
+        house.addItemToLoft(nameOfItem, roomToAddTo, playerHandItems);
     }
 
     private void removeItemFromDownstairsRoom() throws RoomDoesntExistException {
         String nameOfItem = getUserInput("Enter the item you want to remove from here: ");
-        Item removingItem = searchForItemInRoom(nameOfItem);
         String roomToRemoveFrom = getUserInput("Enter the room you want to remove the item from: ");
-        int removingFromRoomIndex = searchForDownstairsRoomInHouse(roomToRemoveFrom);
-        house.getDownstairsRooms().get(removingFromRoomIndex).removeItem(removingItem);
-        playerHandItems.pickUpItem(removingItem);
+        house.removeItemFromDownstairsRoom(nameOfItem, roomToRemoveFrom, playerHandItems);
     }
 
     private void removeItemFromUpstairsRoom() throws RoomDoesntExistException {
         String nameOfItem = getUserInput("Enter the item you want to remove from here: ");
-        Item removingItem = searchForItemInRoom(nameOfItem);
         String roomToRemoveFrom = getUserInput("Enter the room you want to remove the item from: ");
-        int removingFromRoomIndex = searchForUpstairsRoomInHouse(roomToRemoveFrom);
-        house.getUpstairsRooms().get(removingFromRoomIndex).removeItem(removingItem);
-        playerHandItems.pickUpItem(removingItem);
+        house.removeItemFromUpstairsRoom(nameOfItem, roomToRemoveFrom, playerHandItems);
     }
 
     private void removeItemFromLoft() throws RoomDoesntExistException {
         String nameOfItem = getUserInput("Enter the item you want to remove from here: ");
-        Item removingItem = searchForItemInRoom(nameOfItem);
         String roomToRemoveFrom = getUserInput("Enter the room you want to remove the item from: ");
-        int removingFromRoomIndex = searchForLoftInHouse(roomToRemoveFrom);
-        playerHandItems.pickUpItem(removingItem);
-        house.getLoftsRooms().get(removingFromRoomIndex).removeItem(removingItem);
-    }
-
-    private Item searchForItemInRoom(String item) {
-        Item searchedItem = null;
-        for (Item i : house.getRooms().get(0).getItemsInRoom()
-        ) {
-            if (i.getNameOfItem().equals(item)) {
-                searchedItem = i;
-            }
-        }
-        if (searchedItem == null) {
-            System.out.println("There's no such item.");
-        }
-        return searchedItem;
-    }
-
-    private int searchForDownstairsRoomInHouse(String roomName) throws RoomDoesntExistException {
-        Room searched = null;
-        for (Room i : house.getDownstairsRooms()
-        ) {
-            if (i.getName().equals(roomName)) {
-                searched = i;
-            }
-        }
-        if (searched == null) {
-            throw new RoomDoesntExistException();
-        }
-        return house.getDownstairsRooms().indexOf(searched);
-    }
-
-    private int searchForUpstairsRoomInHouse(String roomName) throws RoomDoesntExistException {
-        Room searched = null;
-        for (Room i : house.getUpstairsRooms()
-        ) {
-            if (i.getName().equals(roomName)) {
-                searched = i;
-            }
-        }
-        if (searched == null) {
-            throw new RoomDoesntExistException();
-        }
-        return house.getUpstairsRooms().indexOf(searched);
-    }
-
-    private int searchForLoftInHouse(String roomName) throws RoomDoesntExistException {
-        Room searched = null;
-        for (Room i : house.getLoftsRooms()
-        ) {
-            if (i.getName().equals(roomName)) {
-                searched = i;
-            }
-        }
-        if (searched == null) {
-            throw new RoomDoesntExistException();
-        }
-        return house.getLoftsRooms().indexOf(searched);
+        house.removeItemFromLoft(nameOfItem, roomToRemoveFrom, playerHandItems);
     }
 
     // house menu methods
     private void listRooms() {
-        System.out.println(house.getDownstairsRooms());
-        System.out.println(house.getUpstairsRooms());
-        System.out.println(house.getLoftsRooms());
+        house.listRooms();
     }
 
-//    private void state() {
-//        System.out.println(house.getRooms());
-//    }
 
     private void listDownstairsRoomsByLocation() {
-        if (house.getDownstairsRooms().size() == 0) {
-            System.out.println("There aren't any rooms.");
-        } else {
-            int j = 1;
-            for (Room i : house.getDownstairsRooms()
-            ) {
-                System.out.println("Room listing: \nRoom number: " + j + ". \nRoom name: " + i.getName() +
-                    "\nThe items it has: " + i.getItemsInRoom());
-                j++;
-            }
-        }
+        house.listDownstairsRoomsByLocation();
     }
 
     private void listUpstairsRoomsByLocation() {
-        if (house.getUpstairsRooms().size() == 0) {
-            System.out.println("There aren't any rooms.");
-        } else {
-            int j = 1;
-            for (Room i : house.getUpstairsRooms()
-            ) {
-                System.out.println("Room listing: \nRoom number: " + j + ". \nRoom name: " + i.getName() +
-                    "\nThe items it has: " + i.getItemsInRoom());
-                j++;
-            }
-        }
+        house.listUpstairsRoomsByLocation();
     }
 
     private void listLoftByLocation() {
-        if (house.getLoftsRooms().size() == 0) {
-            System.out.println("There aren't any rooms.");
-        } else {
-            int j = 1;
-            for (Room i : house.getLoftsRooms()
-            ) {
-                System.out.println("Room listing: \nRoom number: " + j + ". \nRoom name: " + i.getName() +
-                    "\nThe items it has: " + i.getItemsInRoom());
-                j++;
-            }
-        }
+        house.listLoftByLocation();
     }
 
     private void addRoomToHouse(RoomLocation roomLocation) throws SameRoomException {
         String userInput1 = getUserInput("Enter the name of the new room: ");
-        if (roomLocation.equals(RoomLocation.DOWNSTAIRS) && searchRoomInHouse(userInput1) == null) {
-            house.addRoom(new DownstairsRoom(userInput1, RoomLocation.DOWNSTAIRS), roomLocation);
-        } else if (roomLocation.equals(RoomLocation.UPSTAIRS) && searchRoomInHouse(userInput1) == null) {
-            house.addRoom(new UpstairsRoom(userInput1, RoomLocation.UPSTAIRS), roomLocation);
-        } else if (roomLocation.equals(RoomLocation.LOFT) && searchRoomInHouse(userInput1) == null) {
-            house.addRoom(new Loft(userInput1, RoomLocation.LOFT), roomLocation);
-        } else {
-            throw new SameRoomException();
-        }
+        house.addRoomToHouse(userInput1, roomLocation);
     }
 
     private void removingRoomFromHouse(RoomLocation roomLocation) {
         String userInput1 = getUserInput("Enter the name of the room you want to remove: ");
-        if (roomLocation.equals(RoomLocation.DOWNSTAIRS) && searchRoomInHouse(userInput1) != null) {
-            house.deleteRoom(searchRoomInHouse(userInput1), roomLocation);
-        }
-    }
-
-    private Room searchRoomInHouse(String name) {
-        Room searched = null;
-        for (Room i : house.getRooms()
-        ) {
-            if (i.getName().equals(name)) {
-                searched = i;
-            }
-        }
-        return searched;
+        house.removingRoomFromHouse(userInput1, roomLocation);
     }
 
     // serializer methods
@@ -500,7 +311,7 @@ public class Main {
         out.writeObject(house);
         out.close();
         fileOut.close();
-        System.out.println("\nSerialized data is saved in serializing.ser\n");
+        System.out.println("\nSerialized data is saved in serializing.ser.\n");
     }
 
     public void load() throws IOException, ClassNotFoundException {
@@ -510,6 +321,6 @@ public class Main {
         house = (House) in.readObject();
         in.close();
         fileIn.close();
-        System.out.println("\nSerialized data is loaded from serializing.ser\n");
+        System.out.println("\nSerialized data is loaded from serializing.ser.\n");
     }
 }
