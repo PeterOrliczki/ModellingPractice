@@ -11,11 +11,11 @@ public class Item implements Serializable {
         this.typeOfItem = typeOfItem;
     }
 
-    public String getNameOfItem() {
+    String getNameOfItem() {
         return nameOfItem;
     }
 
-    public RoomType getTypeOfItem() {
+    RoomType getTypeOfItem() {
         return typeOfItem;
     }
 

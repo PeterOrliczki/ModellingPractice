@@ -24,8 +24,7 @@ public class House implements Serializable {
             System.out.println("There are no items.");
         } else {
             int j = 1;
-            for (Item i : playerHandItems.getAllItems()
-            ) {
+            for (Item i : playerHandItems.getAllItems()) {
                 System.out.println("Item number: " + j + ". \nName: " + i.getNameOfItem() + "\n" +
                     "The room it belongs to: " + i.getTypeOfItem() + "\n");
                 j++;
@@ -56,8 +55,7 @@ public class House implements Serializable {
 
     private Item searchItemInAllItems(String item, PlayerHandItems playerHandItems) {
         Item searchedItem = null;
-        for (Item i : playerHandItems.getAllItems()
-        ) {
+        for (Item i : playerHandItems.getAllItems()) {
             if (i.getNameOfItem().equals(item)) {
                 searchedItem = i;
             }
@@ -73,8 +71,7 @@ public class House implements Serializable {
             System.out.println("There's nothing in your hand");
         } else {
             int j = 1;
-            for (Item i : playerHandItems.getItemsInPlayerHand()
-            ) {
+            for (Item i : playerHandItems.getItemsInPlayerHand()) {
                 System.out.println("Item number: " + j + ". \nItem Name: " + i.getNameOfItem() + "\n" +
                     "The room it belongs to: " + i.getTypeOfItem() + "\n");
                 j++;
@@ -94,8 +91,7 @@ public class House implements Serializable {
 
     private Item searchForItemInPlayerHand(String item, PlayerHandItems playerHandItems) {
         Item searchedItem = null;
-        for (Item i : playerHandItems.getAllItems()
-        ) {
+        for (Item i : playerHandItems.getAllItems()) {
             if (i.getNameOfItem().equals(item)) {
                 searchedItem = i;
             }
@@ -150,8 +146,7 @@ public class House implements Serializable {
 
     private Item searchForItemInRoom(String item) {
         Item searchedItem = null;
-        for (Item i : this.getRooms().get(0).getItemsInRoom()
-        ) {
+        for (Item i : this.getRooms().get(0).getItemsInRoom()) {
             if (i.getNameOfItem().equals(item)) {
                 searchedItem = i;
             }
@@ -164,8 +159,7 @@ public class House implements Serializable {
 
     private int searchForDownstairsRoomInHouse(String roomName) throws RoomDoesntExistException {
         Room searched = null;
-        for (Room i : this.getDownstairsRooms()
-        ) {
+        for (Room i : this.getDownstairsRooms()) {
             if (i.getName().equals(roomName)) {
                 searched = i;
             }
@@ -178,8 +172,7 @@ public class House implements Serializable {
 
     private int searchForUpstairsRoomInHouse(String roomName) throws RoomDoesntExistException {
         Room searched = null;
-        for (Room i : this.getUpstairsRooms()
-        ) {
+        for (Room i : this.getUpstairsRooms()) {
             if (i.getName().equals(roomName)) {
                 searched = i;
             }
@@ -192,8 +185,7 @@ public class House implements Serializable {
 
     private int searchForLoftInHouse(String roomName) throws RoomDoesntExistException {
         Room searched = null;
-        for (Room i : this.getLoftsRooms()
-        ) {
+        for (Room i : this.getLoftsRooms()) {
             if (i.getName().equals(roomName)) {
                 searched = i;
             }
@@ -210,7 +202,7 @@ public class House implements Serializable {
         System.out.println(this.getLoftsRooms());
     }
 
-    //    private void state() {
+//        private void state() {
 //        System.out.println(house.getRooms());
 //    }
 
@@ -219,8 +211,7 @@ public class House implements Serializable {
             System.out.println("There aren't any rooms.");
         } else {
             int j = 1;
-            for (Room i : this.getDownstairsRooms()
-            ) {
+            for (Room i : this.getDownstairsRooms()) {
                 System.out.println("Room listing: \nRoom number: " + j + ". \nRoom name: " + i.getName() +
                     "\nThe items it has: " + i.getItemsInRoom());
                 j++;
@@ -233,8 +224,7 @@ public class House implements Serializable {
             System.out.println("There aren't any rooms.");
         } else {
             int j = 1;
-            for (Room i : this.getUpstairsRooms()
-            ) {
+            for (Room i : this.getUpstairsRooms()) {
                 System.out.println("Room listing: \nRoom number: " + j + ". \nRoom name: " + i.getName() +
                     "\nThe items it has: " + i.getItemsInRoom());
                 j++;
@@ -247,8 +237,7 @@ public class House implements Serializable {
             System.out.println("There aren't any rooms.");
         } else {
             int j = 1;
-            for (Room i : this.getLoftsRooms()
-            ) {
+            for (Room i : this.getLoftsRooms()) {
                 System.out.println("Room listing: \nRoom number: " + j + ". \nRoom name: " + i.getName() +
                     "\nThe items it has: " + i.getItemsInRoom());
                 j++;
@@ -276,8 +265,7 @@ public class House implements Serializable {
 
     private Room searchRoomInHouse(String name) {
         Room searched = null;
-        for (Room i : this.getRooms()
-        ) {
+        for (Room i : this.getRooms()) {
             if (i.getName().equals(name)) {
                 searched = i;
             }
@@ -285,7 +273,7 @@ public class House implements Serializable {
         return searched;
     }
 
-    public void addRoom(Room room, RoomLocation roomLocation) {
+    private void addRoom(Room room, RoomLocation roomLocation) {
         if (roomLocation.equals(RoomLocation.DOWNSTAIRS)) {
             downstairsRooms.add((DownstairsRoom) room);
         } else if (roomLocation.equals(RoomLocation.UPSTAIRS)) {
@@ -295,7 +283,7 @@ public class House implements Serializable {
         }
     }
 
-    public void deleteRoom(Room room, RoomLocation roomLocation) {
+    private void deleteRoom(Room room, RoomLocation roomLocation) {
         if (roomLocation.equals(RoomLocation.DOWNSTAIRS)) {
             downstairsRooms.remove(room);
         } else if (roomLocation.equals(RoomLocation.UPSTAIRS)) {
@@ -305,7 +293,7 @@ public class House implements Serializable {
         }
     }
 
-    public List<Room> getRooms() {
+    private List<Room> getRooms() {
         List<Room> allRooms = new ArrayList<>();
         allRooms.addAll(downstairsRooms);
         allRooms.addAll(upstairsRooms);
@@ -313,19 +301,19 @@ public class House implements Serializable {
         return allRooms;
     }
 
-    public ArrayList<DownstairsRoom> getDownstairsRooms() {
+    private ArrayList<DownstairsRoom> getDownstairsRooms() {
         return downstairsRooms;
     }
 
-    public ArrayList<UpstairsRoom> getUpstairsRooms() {
+    private ArrayList<UpstairsRoom> getUpstairsRooms() {
         return upstairsRooms;
     }
 
-    public ArrayList<Loft> getLoftsRooms() {
+    private ArrayList<Loft> getLoftsRooms() {
         return loftsRooms;
     }
 
-    public ArrayList<ArrayList> getState() {
-        return state;
-    }
+//    public ArrayList<ArrayList> getState() {
+//        return state;
+//    }
 }

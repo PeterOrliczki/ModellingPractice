@@ -308,16 +308,19 @@ public class Main {
     private void save() throws IOException {
         FileOutputStream fileOut = new FileOutputStream("./serializing.ser");
         ObjectOutputStream out = new ObjectOutputStream(fileOut);
+        out.writeObject(playerHandItems);
         out.writeObject(house);
         out.close();
         fileOut.close();
         System.out.println("\nSerialized data is saved in serializing.ser.\n");
     }
 
-    public void load() throws IOException, ClassNotFoundException {
+    private void load() throws IOException, ClassNotFoundException {
         house = null;
+        playerHandItems = null;
         FileInputStream fileIn = new FileInputStream("./serializing.ser");
         ObjectInputStream in = new ObjectInputStream(fileIn);
+        playerHandItems = (PlayerHandItems) in.readObject();
         house = (House) in.readObject();
         in.close();
         fileIn.close();

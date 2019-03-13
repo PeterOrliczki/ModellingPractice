@@ -21,7 +21,7 @@ public abstract class Room implements Serializable {
 
     public abstract void removeItem(Item item);
 
-    public String getName() {
+    String getName() {
         return name;
     }
 
@@ -29,7 +29,7 @@ public abstract class Room implements Serializable {
         return maxItems;
     }
 
-    public ArrayList<Item> getItemsInRoom() {
+    ArrayList<Item> getItemsInRoom() {
         return itemsInRoom;
     }
 

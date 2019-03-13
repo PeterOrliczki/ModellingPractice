@@ -4,7 +4,7 @@ import com.codecool.api.exceptions.CollapsingFromCarryingWayTooMuchException;
 
 public class Loft extends Room  {
 
-    public Loft(String name, RoomLocation roomLocation) {
+    Loft(String name, RoomLocation roomLocation) {
         super(name, roomLocation);
     }
 

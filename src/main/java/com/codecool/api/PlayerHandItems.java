@@ -14,37 +14,36 @@ public class PlayerHandItems implements Serializable {
         allItems = new ArrayList<>();
     }
 
-    public void checkForSameItem(String nameOfItem) throws SameItemException {
-        for (Item i : allItems
-        ) {
+    private void checkForSameItem(String nameOfItem) throws SameItemException {
+        for (Item i : allItems) {
             if (i.getNameOfItem().equals(nameOfItem)) {
                 throw new SameItemException("Theres no such item.");
             }
         }
     }
 
-    public void addItemToAllItems(Item item) throws SameItemException {
+    void addItemToAllItems(Item item) throws SameItemException {
         checkForSameItem(item.getNameOfItem());
         allItems.add(item);
     }
 
-    public void pickUpItem(Item item){
+    void pickUpItem(Item item) {
         itemsInPlayerHand.add(item);
     }
 
-    public void removeItemFromAllItems(Item item){
+    void removeItemFromAllItems(Item item) {
         allItems.remove(item);
     }
 
-    public void putDownItem(Item item){
+    void putDownItem(Item item) {
         itemsInPlayerHand.remove(item);
     }
 
-    public ArrayList<Item> getItemsInPlayerHand() {
+    ArrayList<Item> getItemsInPlayerHand() {
         return itemsInPlayerHand;
     }
 
-    public ArrayList<Item> getAllItems() {
+    ArrayList<Item> getAllItems() {
         return allItems;
     }
 
