@@ -10,13 +10,13 @@ public class House implements Serializable {
     private ArrayList<DownstairsRoom> downstairsRooms;
     private ArrayList<UpstairsRoom> upstairsRooms;
     private ArrayList<Loft> loftsRooms;
-    private ArrayList<ArrayList> state;
+//    private ArrayList<ArrayList> state;
 
     public House() {
         downstairsRooms = new ArrayList<>();
         upstairsRooms = new ArrayList<>();
         loftsRooms = new ArrayList<>();
-        state = new ArrayList<>();
+//        state = new ArrayList<>();
     }
 
     public void listAllItems(PlayerHandItems playerHandItems) {

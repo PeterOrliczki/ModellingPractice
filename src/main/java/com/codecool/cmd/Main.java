@@ -13,15 +13,6 @@ import java.io.*;
 import java.util.Scanner;
 
 public class Main {
-    // TODO:
-    //  Main:
-    //  1. something with same room exception doesnt work
-    //  2. private void addItemToDownstairsRoom()
-    //     ArrayList<Room> downstairsRooms = house.getDownstairsRooms();
-    //     Room room = downstairsRooms.get(addingToRoomIndex);
-    //     room.addItem(addingItem);
-    //  3. private void removingRoomFromHouse() {
-    //  House:
     //  1. private Map<RoomLocation, List<Room>> xxx;
     //  2. public void addRoom(Room room, RoomLocation roomLocation)
     //  List<Room> rooms = xxx.get(roomLocation);
@@ -29,7 +20,6 @@ public class Main {
     //  3. public ArrayList<DownstairsRoom> getDownstairsRooms() {
     //  public ArrayList<Room> getDownstairsRooms() {
     //  return xxx.get(RoomLocation.DOWNSTAIRS);
-    //  4. list an individual rooms items
 
     private Scanner reader = new Scanner(System.in);
     private PlayerHandItems playerHandItems = new PlayerHandItems();
